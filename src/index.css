@@ -1,0 +1,18 @@
+
+:root {
+  --primary-color:#7786e3;
+  --black-white-color:#ffffff;
+  --black-blure-color:#ac0aa6;
+}
+.active-link {
+  color: #ff4500; /* Highlight color for active routes */
+  font-weight: bold; /* Makes it bold */
+  text-decoration: underline; /* Optional: underline active links */
+}
+
+.inactive-link {
+  color: #000; /* Default color for inactive routes */
+  text-decoration: none;
+}
+
+

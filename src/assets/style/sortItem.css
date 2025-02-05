@@ -1,0 +1,426 @@
+@import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
+.name_menu{
+    text-align: center;
+    font-size: 15px;
+    color: var(--primary-color);
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+.sortItems{
+    display: flex;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+.sortDropdowns{
+    position: absolute;
+    right: 20px;
+    height: 30px;
+    width: 140px;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 0;
+    border: 1px solid red;
+}
+.sortItems h1{
+   padding-left: 10px;
+    font-size: 20px;
+    color:black;
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+.sortItem {
+    position: sticky;
+    top: 113px;
+    z-index: 50;
+    height: 50px;
+    width: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+.sortItem h1{
+    padding-left: 30px;
+    font-size: 20px;
+    color: var(--black-white-color);
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.sortDropdown {
+    position: absolute;
+    right: 50px;
+    height: 30px;
+    width: 140px;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 20px;
+    border: 1px solid red;
+}
+
+.sortDropdown option {
+    background-color: var(--black-white-color);
+}
+
+.template_item {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+}
+
+.item_authors {
+    border-radius: 10px;
+    width: 25%;
+    padding: 10px;
+    box-shadow: 1px 1px 5px var(--black-blure-color);
+}
+
+.item_authors li {
+    margin: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--black-blure-color);
+    height: auto;
+    width: 100%;
+    cursor: pointer;
+    padding: 5px 0 5px 0;
+
+}
+
+.item_authors li h2 {
+    margin: 0;
+    font-size: 15px;
+    color: var(--black-blure-color);
+    font-family: "Roboto", "Nokora", sans-serif;
+
+}
+
+.item_authors li:hover {
+    text-decoration: underline;
+}
+
+.item_authors li p {
+    margin: 0;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.item_authors li p:nth-child(3) {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.seeMores {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+    height: 50px;
+}
+
+.seeMores h1 {
+    font-size: 15px;
+    color: var(--black-blure-color);
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.seeall {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 30px;
+    width: 100px;
+    border: 1px solid var(--black-blure-color);
+    cursor: pointer;
+
+}
+
+.seeall p {
+    transition: 0.5s linear;
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.seeall i {
+    transition: 0.5s linear;
+}
+
+.seeall:hover {
+    color: var(--primary-color);
+}
+
+.item_books {
+    width: 85%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    /* display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(85%, 1fr)); */
+    gap: 10px;
+
+}
+
+.items {
+    width: 270px;
+    height: 450px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px var(--black-blure-color);
+}
+
+.book_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 230px;
+    width: 270px;
+    transition: 0.1s linear;
+    padding: 10px 0 10px 0;
+   
+}
+
+.book_item:hover {
+    transform: scale(1.01);
+}
+
+.book_item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.descript_item {
+    padding: 0px 10px 10px 10px;
+}
+
+.descript_item h1 {
+    
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    color: var(--black-blure-color);
+    transition: 0.2s linear;
+    cursor: pointer;
+    font-family: "Roboto", "Nokora", sans-serif;
+    white-space: nowrap; /* Prevent text from wrapping to the next line */
+    overflow: hidden;    /* Hide overflowing text */
+    text-overflow: ellipsis; /* Display an ellipsis (…) for overflowed text */
+}
+
+.descript_item h1:hover {
+    color: var(--primary-color);
+}
+
+.descript_item p {
+    height: 75px;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    color: var(--black-blure-color);
+    font-family: "Roboto", "Nokora", sans-serif;
+    display: -webkit-box;       /* Use WebKit box layout for clamping */
+    -webkit-line-clamp: 3;      /* Limit to 2 lines */
+    -webkit-box-orient: vertical; /* Orient the text vertically */
+    overflow: hidden;           /* Hide any overflowed text */
+    text-overflow: ellipsis;    /* Add ellipsis for overflowed text */
+}
+
+.price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 0 15px 0;
+}
+
+.price span {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.price span:nth-child(2) {
+    color: var(--black-blure-color);
+}
+
+.buy_item {
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.buy_item .buy {
+    padding: 0;
+    width: 120px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    border: 1px solid var(--primary-color);
+    border-radius: 0px 5px 0px 5px;
+    cursor: pointer;
+    transition: 0.2s linear;
+
+}
+
+.buy:hover {
+    transform: scale(1.01);
+    box-shadow: 1px 1px 10px var(--primary-color);
+}
+
+.buy span{
+    text-align: center;
+    width: 100%;
+    font-size: 15px;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.buy_item .buy img {
+    width: 30px;
+    height: 100%;
+    object-fit: contain;
+}
+
+.buy_item img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    transition: 0.5s linear;
+
+}
+
+.buy_item img:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(2px 1px 10px var(--primary-color));
+}
+
+.recomment_book {
+    width: 100%;
+    height: 100%;
+}
+
+.recomment_book h1 {
+    font-size: 25px;
+    padding-left: 50px;
+    color: var(--black-blure-color);
+    font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.show_books {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.show_books span i {
+    font-size: 30px;
+    color: var(--black-blure-color);
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+
+.show_books span i:hover {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+.container_slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 90%;
+    height: 100px;
+    overflow: hidden;
+    transition: transform 0.5s ease-in-out ;
+}
+
+.book {
+    padding: 10px 25px 10px 25px;
+    border: 1px solid var(--black-blure-color);
+    border-radius: 10px 0 10px;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+
+.container_slide.left {
+    transform: translateX(0);
+}
+
+.container_slide.right {
+    transform: translateX(100%);
+}
+
+
+.show_books .book span {
+    font-size: 20px;
+    font-family: "Roboto", "Nokora", sans-serif;
+    font-weight: bold;
+}
+
+.book:hover {
+    margin: 0 10px 0 10px;
+    transform: scale(1.1);
+    border: 1px solid var(--primary-color);
+    box-shadow: 1px 1px 20px var(--primary-color);
+}
+
+.title_other {
+    padding-left: 50px;
+}
+
+.title_other h1 {
+    font-family: "Roboto", "Nokora", sans-serif;
+    font-size: 30px;
+    color: var(--black-blure-color);
+}
+
+.button_back,
+.button_next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 30px;
+}
+
+.button_back i {
+    font-size: 30px;
+    color: var(--black-blure-color);
+}
+
+.button_next i {
+    font-size: 30px;
+    color: var(--black-blure-color);
+}
+
+.other_book {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.list_other {
+    padding: 10px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    overflow: scroll;
+    overflow-y:hidden ;
+    scrollbar-width: none;
+    gap: 10px;
+
+}
+.button_back.disabled, .button_next.disabled {
+    opacity: 0.5;
+    pointer-events: none; /* Disables clicking */
+}

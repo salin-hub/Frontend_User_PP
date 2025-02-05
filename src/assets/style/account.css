@@ -1,0 +1,489 @@
+.container_account {
+  position: absolute;
+  height: 100vh;
+  top: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0000008c;
+  z-index: 100;
+}
+
+.form-container {
+  display: flex;
+  width: 60%;
+  max-height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0px 20px rgb(79, 79, 79);
+}
+
+.login-box, .signup-box {
+  flex: 1;
+  padding: 40px;
+  background-color: #f9f9f9;
+}
+
+.login-box h2, .signup-box h2 {
+  font-size: 30px;
+  text-align: center;
+  font-family: "Roboto", "Nokora", sans-serif;
+  color: var(--black-blure-color);
+}
+
+.login-box p, .signup-box p {
+  font-size: 20px;
+  font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.input_acc {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input_acc:focus {
+  border-color: #ff6767;
+  outline: none;
+}
+
+.input_acc::placeholder {
+  font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-box svg {
+  position: absolute;
+  left: 10px;
+}
+
+.input-box input {
+  padding-left: 40px;
+}
+
+.check_eye svg {
+  position: absolute;
+  top: 22px;
+  left: 350px;
+  cursor: pointer;
+}
+
+.btn {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #ff4d4d;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.google-btn svg {
+  margin-right: 10px;
+}
+
+.google-btn:hover {
+  background-color: #f1f1f1;
+}
+
+a {
+  color: #ff6767;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.with_google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controll_image_form {
+  display: flex;
+  width: 300px;
+  height: 50%;
+  border: 1px solid var(--black-white-color);
+  border-radius: 10px;
+  position: relative;
+  padding: 10px;
+}
+
+.controll_image_form p {
+  margin: 0;
+  font-size: 30px;
+  font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.promo-box {
+  flex: 1;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-size: 20px;
+}
+
+.image_form {
+  width: 100%;
+  height: 100%;
+}
+
+.image_form img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.controller_profile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-profile {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  border-right: 1px solid #ccc;
+  padding: 20px;
+}
+
+.profile-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-info {
+  text-align: center;
+}
+
+.profile-info p {
+  color: black;
+  font-size: 20px;
+  font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.menu-section {
+  width: 70%;
+}
+
+.order_list {
+  z-index: 0;
+  padding: 10px;
+}
+
+.control_menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-item {
+  width: 90px;
+  height: 90px;
+  padding: 20px;
+  background-color: #ff6f6f;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+
+.menu-item img {
+  width: 30px;
+  height: 30px;
+}
+
+.menu-item p {
+  font-size: 12px;
+  margin-top: 5px;
+  color: #ffffff;
+  font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.order_list table tbody tr td {
+  font-size: 15px;
+  font-family: "Roboto", "Nokora", sans-serif;
+}
+
+.sign-out {
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #ff6f6f;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signout_img {
+  width: 30px;
+  height: 30px;
+}
+
+.signout_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sign-out:hover {
+  background-color: #ff4d4d;
+}
+
+@keyframes slideOut {
+  0% {
+      transform: translateX(0);
+  }
+  100% {
+      transform: translateX(100%);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+      transform: translateX(-100%);
+  }
+  100% {
+      transform: translateX(0);
+  }
+}
+
+.slide-out {
+  animation: slideOut 0.5s forwards;
+}
+
+.slide-in {
+  animation: slideIn 0.5s forwards;
+}
+
+.error_pass {
+  padding: 0;
+  margin: 0;
+  color: red;
+}
+
+.error_pass p {
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+}
+
+.loading_account {
+  width: 100%;
+  height: 100%;
+}
+
+/* Media Queries for responsiveness */
+
+/* Mobile and tablet adjustments */
+@media (max-width: 768px) {
+  .form-container {
+      width: 90%;
+      flex-direction: column;  /* Stack login/signup boxes */
+  }
+
+  .login-box, .signup-box {
+      padding: 20px;
+  }
+
+  .login-box h2, .signup-box h2 {
+      font-size: 24px;
+  }
+
+  .input_acc {
+      font-size: 16px;
+  }
+
+  .btn {
+      padding: 12px;
+  }
+
+  .google-btn {
+      padding: 8px;
+  }
+
+  .controll_image_form {
+      width: 80%;
+      height: 40%;
+  }
+
+  .user-profile {
+      flex-direction: column;
+  }
+
+  .profile-section {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #ccc;
+  }
+
+  .menu-section {
+      width: 100%;
+  }
+
+  .menu-item {
+      width: 70px;
+      height: 70px;
+  }
+
+  .menu-item img {
+      width: 25px;
+      height: 25px;
+  }
+
+  .order_list table tbody tr td {
+      font-size: 14px;
+  }
+
+  .sign-out {
+      width: 100%;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .form-container {
+      width: 100%;
+      padding: 10px;
+  }
+
+  .login-box, .signup-box {
+      padding: 15px;
+  }
+
+  .login-box h2, .signup-box h2 {
+      font-size: 22px;
+  }
+
+  .input_acc {
+      font-size: 14px;
+  }
+
+  .btn {
+      padding: 10px;
+  }
+
+  .google-btn {
+      padding: 6px;
+  }
+
+  .controll_image_form {
+      width: 90%;
+      height: 40%;
+  }
+
+  .user-profile {
+      flex-direction: column;
+  }
+
+  .profile-section {
+      width: 100%;
+      border-bottom: 1px solid #ccc;
+  }
+
+  .menu-section {
+      width: 100%;
+  }
+
+  .menu-item {
+      width: 60px;
+      height: 60px;
+  }
+
+  .menu-item img {
+      width: 20px;
+      height: 20px;
+  }
+
+  .order_list table tbody tr td {
+      font-size: 13px;
+  }
+
+  .sign-out {
+      width: 100%;
+  }
+}
+.form-container {
+  position: relative; /* Set parent container to relative positioning */
+}
+
+.cancel-btn {
+  position: absolute;
+  top: 10px;  /* Adjust distance from the top */
+  right: 10px; /* Adjust distance from the right */
+  background-color: transparent;
+  color: #f44336;
+  border: none;
+  font-size: 24px; /* Adjust the size of the icon */
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  color: #e53935; /* Change color on hover */
+}
+
+.cancel-btn svg {
+  margin-right: 0; /* No need for margin now, since it's just the icon */
+}
+
+

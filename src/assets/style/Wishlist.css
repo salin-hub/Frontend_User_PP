@@ -1,0 +1,19 @@
+.wishlist{ 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+}
+.empty-wishlist{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.empty-wishlist h2{
+    font-size: 20px;
+    font-family: "Roboto", "Nokora", sans-serif; 
+}
