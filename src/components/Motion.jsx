@@ -1,97 +1,165 @@
-import { useRef, useEffect, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { useEffect, useState } from "react";
 import axios_api from "../API/axios";
 import { useNavigate } from 'react-router-dom';
+import Slider from "react-slick";
+import PropTypes from "prop-types"; // ✅ Import PropTypes
+import "slick-carousel/slick/slick.css";
+
+// Custom Next Arrow
+const NextArrow = ({ onClick }) => {
+    return (
+        <button
+            onClick={onClick}
+            style={{
+                position: "absolute",
+                top: "50%",
+                right: "0px",
+                transform: "translateY(-50%)",
+                background: "#007bff",
+                color: "#fff",
+                border: "none",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                cursor: "pointer",
+                fontSize: "18px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+            }}
+        >
+            ▶
+        </button>
+    );
+};
+
+// Custom Previous Arrow
+const PrevArrow = ({ onClick }) => {
+    return (
+        <button
+            onClick={onClick}
+            style={{
+                position: "absolute",
+                top: "50%",
+                left: "0px",
+                transform: "translateY(-50%)",
+                background: "#007bff",
+                color: "#fff",
+                border: "none",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                cursor: "pointer",
+                fontSize: "18px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: "100"
+            }}
+        >
+            ◀
+        </button>
+    );
+};
+
+NextArrow.propTypes = {
+    onClick: PropTypes.func.isRequired,
+};
+
+PrevArrow.propTypes = {
+    onClick: PropTypes.func.isRequired,
+};
 
 const Motion = () => {
-    const [books, setBooks] = useState([]); // Correctly declare state
-    const carouselRef = useRef(null);
-    const controls = useAnimation();
-    const [isHovering, setIsHovering] = useState(false);
+    const [books, setBooks] = useState([]);
     const navigate = useNavigate();
+
+    // Slick slider settings with custom arrows
+    const settings = {
+        focusOnSelect: true,
+        infinite: true,
+        slidesToShow: 6,
+        slidesToScroll: 1,
+        speed: 500,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: { slidesToShow: 2, slidesToScroll: 1 },
+            },
+            {
+                breakpoint: 600,
+                settings: { slidesToShow: 1, slidesToScroll: 1 },
+            }
+        ]
+    };
 
     const handleBookClick = (bookId) => {
         navigate(`/book/${bookId}`);
     };
 
     // Fetch books from the API
-    const fetchBooks = async () => {
-        try {
-            const response = await axios_api.get('/books');
-            setBooks(response.data.books);
-            console.log('Fetched books:', response.data.books);
-        } catch (error) {
-            console.error('Error fetching books:', error);
-        }
-    };
-
     useEffect(() => {
-        fetchBooks(); // Call once when the component mounts
-    }, []); // Add an empty dependency array to prevent multiple calls
-
-    useEffect(() => {
-        const startScrolling = async () => {
-            const scrollWidth = carouselRef.current?.scrollWidth || 0;
-
-            await controls.start({
-                x: -scrollWidth / 2,
-                transition: {
-                    duration: isHovering ? 30 : 15, // Slow down on hover and normal speed after hover
-                    ease: "easeInOut", // Smooth scroll easing
-                    repeat: Infinity, // Infinite scroll loop
-                },
-            });
+        const fetchBooks = async () => {
+            try {
+                const response = await axios_api.get('/books');
+                setBooks(response.data.books);
+                console.log('Fetched books:', response.data.books);
+            } catch (error) {
+                console.error('Error fetching books:', error);
+            }
         };
-
-        startScrolling();
-    }, [controls, isHovering]); // Re-run when hover state changes
+        fetchBooks();
+    }, []);
 
     return (
-        <><div className="Books">
-        <div className="Name_menu">
-            <h1>Title another Books</h1>
-        </div>
-    </div>
-        <div className="carousel-container" style={{ overflow: "hidden", position: "relative" }}>
-            <motion.div
-                className="carousel-track"
-                ref={carouselRef}
-                animate={controls}
-                style={{ display: "flex", transition: "transform 0.5s ease" }} // Flexbox and smooth transition
-            >
-                {books.map((item, index) => (
-                    <motion.div
-                        className="carousel-item"
-                        key={index}
-                        onHoverStart={() => setIsHovering(true)} // Start slow scrolling on hover
-                        onHoverEnd={() => setIsHovering(false)} // Reset to normal speed on hover end
-                        whileHover={{
-                            scale: 1.1, // Slightly enlarge the item
-                            rotate: 5,  // Slight rotation for a fun effect
-                            transition: { duration: 0.3 }, // Smooth scale effect on hover
-                        }}
-                        style={{
-                            display: "inline-block",
-                           
-                            textAlign: "center",
-                            borderRadius: "15px",  // Rounded corners for a cute effect
-                            boxShadow: "0px 10px 15px rgba(0,0,0,0.1)", // Soft shadow for depth
-                            backgroundColor: "#fff", // Light background for a clean look
-                            overflow: "hidden", // Prevent items from overflowing
-                            padding: "10px",  // Add some padding to give it more space
-                        }}
-                    >
-                        <div 
-                            className="carousel-item-details"  
-                            onClick={() => handleBookClick(item.id)} // Corrected this line to pass a function reference
-                        >
-                            
-                            <h3 style={{"white-space":"nowrap", "padding":"10px"}}>{item.title}</h3>
-                        </div>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </div>
+        <>
+            <div className="Name_menu">
+                <h1>Discover the Latest Books</h1>
+                <p style={{ fontSize: "18px", color: "#666", marginTop: "10px" }}>
+                    Explore new releases and exciting titles to add to your collection.
+                </p>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div className="slider-container" style={{ width: "90%", maxWidth: "1500px", overflow: "hidden" }}>
+                    <Slider {...settings}>
+                        {books.map((book) => (
+                            <div
+                                key={book.id}
+                                className="slide-item"
+                                style={{
+                                    padding: "15px",
+                                    textAlign: "center",
+                                    background: "#fff",
+                                    borderRadius: "10px",
+                                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <h3
+                                    onClick={() => handleBookClick(book.id)}
+                                    style={{
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        maxWidth: "80%"
+                                    }}>
+                                    {book.title.length > 20 ? book.title.substring(0, 20) + "..." : book.title}
+                                </h3>
+                            </div>
+                        ))}
+                    </Slider>
+                </div>
+            </div>
+
+
         </>
     );
 };

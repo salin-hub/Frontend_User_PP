@@ -373,11 +373,7 @@ const Books = () => {
                     </div>
                 </div>
             </div>
-
             <Motion />
-
-
-
             <Other_book />
         </>
     );
