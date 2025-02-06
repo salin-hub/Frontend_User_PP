@@ -24,7 +24,12 @@
   height: 50px;
   background-color: var(--black-blure-color);
 }
-
+.rating{
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .template_book {
   padding: 40px;
   width: auto;
@@ -33,7 +38,6 @@
   grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
   gap: 10px;
 }
-
 .Name_menu {
   text-align: center;
   margin: 0;
@@ -156,17 +160,19 @@
 }
 .slider-container{
   width: 100%;
-  position: relative;
 }
 .slide-item{
   display: flex;
+  padding: 10px;
 }
 .slide-item h3{
-
+  font-size: 20px;
+  font-family: "Roboto", "Nokora", sans-serif;
   text-align: center;
   padding: 10px;
   border-radius: 10px;
-  background-color: #04b897;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgb(193, 193, 193);
 }
 
 /* Media Queries for responsiveness */

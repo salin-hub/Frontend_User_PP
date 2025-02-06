@@ -151,7 +151,6 @@
 .seeall:hover {
     color: var(--primary-color);
 }
-
 .item_books {
     width: 85%;
     height: 100%;
@@ -200,7 +199,7 @@
     height: 30px;
     padding: 0;
     margin: 0;
-    font-size: 20px;
+    font-size: 15px;
     color: var(--black-blure-color);
     transition: 0.2s linear;
     cursor: pointer;
@@ -215,10 +214,10 @@
 }
 
 .descript_item p {
-    height: 75px;
+    height: 59px;
     margin: 0;
     padding: 0;
-    font-size: 20px;
+    font-size: 15px;
     color: var(--black-blure-color);
     font-family: "Roboto", "Nokora", sans-serif;
     display: -webkit-box;       /* Use WebKit box layout for clamping */
@@ -231,8 +230,8 @@
 .price {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 3px 0 15px 0;
+    justify-content: center;
+    padding: 3px 0 0px 0;
 }
 
 .price span {

@@ -11,7 +11,7 @@ import markbookIcon_red from '../assets/Images/bookmark_red.png';
 import Motion from './Motion';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-
+import { FaStar, FaRegStar } from "react-icons/fa";
 const Books = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -49,6 +49,13 @@ const Books = () => {
         } finally {
             setLoading(false);
         }
+    };
+    const renderStars = (rating) => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(i <= rating ? <FaStar key={i} color="#FFD700" /> : <FaRegStar key={i} color="#FFD700" />);
+        }
+        return stars;
     };
 
     // Fetch authors data
@@ -118,7 +125,7 @@ const Books = () => {
                 users_id: userId,
             };
 
-             await axios_api.post('/favorite', requestData, {
+            await axios_api.post('/favorite', requestData, {
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
                 },
@@ -265,16 +272,16 @@ const Books = () => {
             {error && <div>Error: {error}</div>}
 
             {successMessage && (
-                 <Snackbar
-                 open={snackbarOpen}
-                 autoHideDuration={6000} // 6 seconds
-                 onClose={handleSnackbarClose}
-                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-             >
-                 <Alert onClose={handleSnackbarClose} severity="success">
-                     {successMessage}
-                 </Alert>
-             </Snackbar>
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={6000} // 6 seconds
+                    onClose={handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <Alert onClose={handleSnackbarClose} severity="success">
+                        {successMessage}
+                    </Alert>
+                </Snackbar>
             )}
 
             <div className="sortItem">
@@ -315,17 +322,26 @@ const Books = () => {
                         <div className="items" key={book.id}>
                             <div onClick={() => handleBookClick(book.id)} style={{ cursor: 'pointer' }}>
                                 <div className="book_item">
-                                    <img
-                                        src={book.cover_path}
-                                        alt={book.title}
-                                    />
+                                    <img src={book.cover_path} alt={book.title} />
                                 </div>
                                 <div className="descript_item">
                                     <h1>{book.title}</h1>
                                     <p>{book.description}</p>
+                                    <div className="rating">{renderStars(book.rating)}</div>
+
                                     <div className="price">
-                                        <span>USD {book.price_handbook} - {book.price_ebook}</span>
-                                        <span>{book.views}</span>
+                                        {book.price_discount && book.price_discount < book.price_handbook ? (
+                                            <>
+                                                <span style={{ textDecoration: "line-through", color: "gray", marginRight: "10px" }}>
+                                                    USD {book.price_handbook}
+                                                </span>
+                                                <span style={{ fontWeight: "bold", color: "red" }}>
+                                                    USD {book.price_discount}
+                                                </span>
+                                            </>
+                                        ) : (
+                                            <span >USD {book.price_handbook}</span>
+                                        )}
                                     </div>
                                 </div>
                             </div>

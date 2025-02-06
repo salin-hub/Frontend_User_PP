@@ -158,9 +158,11 @@ const Other_book = () => {
                 </Alert>
             </Snackbar>
 
-            <div className="title_other">
-                <h1>Other Books</h1>
-                <p>Other books you might be interested in.</p>
+            <div className="Name_menu">
+                <h1>Best Sellers</h1>
+                <p style={{ fontSize: "18px", color: "#666", marginTop: "10px" }}>
+                Discover the Most Popular Books Loved by Readers Worldwide!
+                </p>
             </div>
             <div className="other_book">
                 <div className="button_back">

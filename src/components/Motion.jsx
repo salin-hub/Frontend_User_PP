@@ -5,8 +5,8 @@ import Slider from "react-slick";
 import PropTypes from "prop-types"; // ✅ Import PropTypes
 import "slick-carousel/slick/slick.css";
 
-// Custom Next Arrow
-const NextArrow = ({ onClick }) => {
+const NextArrow = (props) => {
+    const { onClick } = props; // ✅ Extract onClick
     return (
         <button
             onClick={onClick}
@@ -15,51 +15,53 @@ const NextArrow = ({ onClick }) => {
                 top: "50%",
                 right: "0px",
                 transform: "translateY(-50%)",
-                background: "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
+                background:"none",
+                border:"none",
                 cursor: "pointer",
-                fontSize: "18px",
+                fontSize: "30px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                color: "black"
             }}
         >
-            ▶
+            <i className="fa-solid fa-chevron-right"></i>
         </button>
     );
 };
 
-// Custom Previous Arrow
-const PrevArrow = ({ onClick }) => {
+const PrevArrow = (props) => {
+    const { onClick } = props; 
     return (
         <button
             onClick={onClick}
             style={{
                 position: "absolute",
                 top: "50%",
-                left: "0px",
+                left: "-5px",
                 transform: "translateY(-50%)",
-                background: "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
+                background:"none",
+                border:"none",
                 cursor: "pointer",
-                fontSize: "18px",
+                fontSize: "30px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                zIndex: "100"
+                color: "black",
+                zIndex:"100"
             }}
         >
-            ◀
+            <i className="fa-solid fa-chevron-left"></i>
         </button>
     );
+};
+
+NextArrow.propTypes = {
+    onClick: PropTypes.func.isRequired,
+};
+
+PrevArrow.propTypes = {
+    onClick: PropTypes.func.isRequired,
 };
 
 NextArrow.propTypes = {
@@ -73,8 +75,6 @@ PrevArrow.propTypes = {
 const Motion = () => {
     const [books, setBooks] = useState([]);
     const navigate = useNavigate();
-
-    // Slick slider settings with custom arrows
     const settings = {
         focusOnSelect: true,
         infinite: true,
@@ -83,8 +83,8 @@ const Motion = () => {
         speed: 500,
         autoplay: true,
         autoplaySpeed: 3000,
-        nextArrow: <NextArrow />,
-        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow onClick={() => { }} />,
+        prevArrow: <PrevArrow onClick={() => { }} />,
         responsive: [
             {
                 breakpoint: 1024,
@@ -100,14 +100,11 @@ const Motion = () => {
     const handleBookClick = (bookId) => {
         navigate(`/book/${bookId}`);
     };
-
-    // Fetch books from the API
     useEffect(() => {
         const fetchBooks = async () => {
             try {
                 const response = await axios_api.get('/books');
                 setBooks(response.data.books);
-                console.log('Fetched books:', response.data.books);
             } catch (error) {
                 console.error('Error fetching books:', error);
             }
@@ -124,24 +121,13 @@ const Motion = () => {
                 </p>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
                 <div className="slider-container" style={{ width: "90%", maxWidth: "1500px", overflow: "hidden" }}>
                     <Slider {...settings}>
                         {books.map((book) => (
                             <div
                                 key={book.id}
                                 className="slide-item"
-                                style={{
-                                    padding: "15px",
-                                    textAlign: "center",
-                                    background: "#fff",
-                                    borderRadius: "10px",
-                                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
                             >
                                 <h3
                                     onClick={() => handleBookClick(book.id)}
