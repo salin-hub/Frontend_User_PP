@@ -1,73 +1,114 @@
-import { Link } from 'react-router-dom';
-import '../assets/style/Menu.css';
-import { useState, useEffect } from 'react';
-import axios_api from '../API/axios';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../assets/style/Menu.css";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import axios_api from "../API/axios";
+
 const MenuItem = () => {
     const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    const fetchCategories = async () => {
-        try {
-            setLoading(true);
-            setError(null); // Reset error state before fetching
-            const response = await axios_api.get("/categories");
-         
-            
-            setCategories(response.data.categories || []); // Safeguard for response structure
-        } catch (error) {
-            if (error.response) {
-                setError(`Failed to load categories: ${error.response.data.message || error.message}`);
-            } else {
-                setError('Failed to load categories: An unexpected error occurred');
-            }
-        } finally {
-            setLoading(false);
-        }
+    const [state, setState] = useState({ left: false });
+    const [hoveredCategory, setHoveredCategory] = useState(null);
+    const navigate = useNavigate();
+    const localSubcategories = {
+        1: [{ id: 101, name: "Fantasy" }, { id: 102, name: "Mystery" }],
+        2: [{ id: 201, name: "Physics" }, { id: 202, name: "Biology" }],
+        3: [{ id: 301, name: "Drama" }, { id: 302, name: "Horror" }],
+        4: [{ id: 401, name: "History" }, { id: 402, name: "Politics" }],
     };
 
     useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios_api.get("/categories");
+                const fetchedCategories = response.data.categories || [];
+                const categoriesWithSub = fetchedCategories.map((category) => ({
+                    ...category,
+                    subcategories: localSubcategories[category.id] || [], // Use local subcategories
+                }));
+
+                setCategories(categoriesWithSub);
+            } catch (error) {
+                console.error("Failed to load categories", error);
+            }
+        };
         fetchCategories();
     }, []);
-  
 
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleMenu = () => {
-        setIsOpen((prevIsOpen) => !prevIsOpen);
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) return;
+        setState({ ...state, [anchor]: open });
     };
+
+    const handleCategoryClick = (category) => {
+        navigate(`/category/${category.id}`);
+    };
+
+    const handleSubcategoryClick = (subcategory) => {
+        navigate(`/subcategory/${subcategory.id}`);
+    };
+
+    const handleMouseEnter = (category) => {
+        setHoveredCategory(category.id);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredCategory(null);
+    };
+
+    const list = (anchor) => (
+        <Box sx={{ width: 300 }} role="presentation" onClick={toggleDrawer(anchor, false)} onKeyDown={toggleDrawer(anchor, false)}>
+            <List>
+                <div className="Name_menu">
+                    <h1>Categories List</h1>
+                </div>
+                {categories.map((category) => (
+                    <div key={category.id} onMouseEnter={() => handleMouseEnter(category)} onMouseLeave={handleMouseLeave}>
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={() => handleCategoryClick(category)}>
+                                <ListItemText primary={category.name} />
+                            </ListItemButton>
+                        </ListItem>
+                        {hoveredCategory === category.id && category.subcategories.length > 0 && (
+                            <Box sx={{ paddingLeft: 3, backgroundColor: "#f5f5f5", borderRadius: 2, margin: "5px 0" }}>
+                                <List>
+                                    {category.subcategories.map((sub) => (
+                                        <ListItem key={sub.id} disablePadding>
+                                            <ListItemButton onClick={() => handleSubcategoryClick(sub)}>
+                                                <ListItemText primary={`🔹 ${sub.name}`} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Box>
+                        )}
+                    </div>
+                ))}
+            </List>
+            <Divider />
+        </Box>
+    );
 
     return (
         <>
             <div className="menu_box">
-                <div className="icon_menu" onClick={toggleMenu}>
-                    <i className={`fa-solid ${isOpen ? 'fa-xmark' : 'fa-bars'}`}>categories</i>
+                <div className="icon_menu" onClick={toggleDrawer("left", true)}>
+                    <i className="fa-solid fa-bars"></i><h1>Categories</h1>
                 </div>
 
-                <div className={`menu_item ${isOpen ? 'open' : 'close'}`}>
-                    <h2>Category Lists:</h2>
-                    {loading ? (
-                        <p>Loading categories...</p>
-                    ) : error ? (
-                        <p className="error_message">{error}</p>
-                    ) : categories.length > 0 ? (
-                        categories.map((category) => (
-                            
-                            <div className="item_text" key={category.id || category.name}>
-                                <Link to={category.path || `/category/${category.id}`}>
-                                    <h1>{category.name}</h1>
-                                </Link>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No categories available</p>
-                    )}
-                </div>
+                <Drawer anchor="left" open={state.left} onClose={toggleDrawer("left", false)}>
+                    {list("left")}
+                </Drawer>
 
                 <div className="title_item">
                     <ul>
                         <li><Link to="/newbook">New Books</Link></li>
-                        <li>Best Seller</li>
+                        <li><Link to="/discount">Best Seller</Link></li>
                         <li>Featured Authors</li>
                         <li>Recommended Book</li>
                         <li>Deal Of The Day</li>

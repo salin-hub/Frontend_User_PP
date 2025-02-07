@@ -5,6 +5,7 @@ import Home from './components/Home';
 import MainPage from './components/MainPage';
 import Searching_item from './components/filter_item/Searching_item';
 import NewBook from './components/book_menu/NewBook';
+import DiscountBooks from './components/Main_Home_page/Discount';
 import Login from './components/Accounts/login_acc';
 import Signup from './components/Accounts/Register_acc';
 import UserProfile from './components/Accounts/Account';
@@ -114,6 +115,7 @@ const App = () => {
           <Route path="/category/:id" element={<Category />} />
           <Route path="/book/:id" element={<ViewBook />} />
           <Route path="/search-results" element={<SearchResults />} />
+          <Route path="/discount" element={<DiscountBooks />}/>
         </Routes>
       </div>
       <Footer />

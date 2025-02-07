@@ -2,6 +2,7 @@
   display: flex;
   width: 100%;
 }
+
 .filter_books{
   width: 25%;
   gap: 10px;

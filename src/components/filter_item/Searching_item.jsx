@@ -52,9 +52,9 @@ function SearchBar() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <div className="icon_search" onClick={handleSearch}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </div>
+            </div>
+            <div className="icon_search" onClick={handleSearch}>
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
             </div>
         </div>
     );

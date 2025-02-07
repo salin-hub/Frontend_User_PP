@@ -159,6 +159,7 @@
     /* display: grid;
     grid-template-columns: repeat(auto-fill, minmax(85%, 1fr)); */
     gap: 10px;
+    
 
 }
 
@@ -167,9 +168,11 @@
     height: 450px;
     border-radius: 5px;
     box-shadow: 0px 0px 5px var(--black-blure-color);
+    
 }
 
 .book_item {
+    
     display: flex;
     align-items: center;
     justify-content: center;
