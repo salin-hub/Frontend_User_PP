@@ -87,7 +87,7 @@
     justify-content: center;
     height: 100%;
     width: 70px;
-    background-color: red;
+    background-color: rgb(255, 255, 255);
     right: 0px;
     color: rgb(0, 0, 0);
     font-size: 20px;
@@ -146,7 +146,6 @@
 .navbar .item_menu a:hover {
     color: var(--black-blure-color);
 }
-
 
 
 

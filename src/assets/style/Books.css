@@ -52,7 +52,6 @@
   color: var(--black-color);
 }
 
-/* Pagination Styles */
 .pagination-container {
   width: 90%;
   height: 40px;
@@ -109,6 +108,11 @@
 }
 
 .sortDropdown {
+  font-family: "Roboto", "Nokora", sans-serif;
+}
+.icon_menu h1{
+  padding-left: 10px;
+  font-size: 20px;
   font-family: "Roboto", "Nokora", sans-serif;
 }
 
@@ -175,7 +179,6 @@
   background-color: #ffffff;
   box-shadow: 0 0 10px rgb(193, 193, 193);
 }
-
 /* Media Queries for responsiveness */
 @media (max-width: 1024px) {
   /* Tablet */

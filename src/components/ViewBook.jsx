@@ -12,6 +12,7 @@ import Snackbar from '@mui/material/Snackbar';
 import markbookIcon from '../assets/Images/bookmark.png';
 import markbookIcon_red from '../assets/Images/bookmark_red.png';
 import { useNavigate } from 'react-router-dom';
+import BookReviews from './Comments/BookReview';
 const ViewBook = () => {
     const { id } = useParams(); // Book ID from URL params
     const [loading, setLoading] = useState(true);
@@ -127,6 +128,9 @@ const ViewBook = () => {
     useEffect(() => {
         fetchBookDetails();
     }, [id]);
+    const Author_Name = (AuthorID) => {
+        navigate(`/author/${AuthorID}`);
+    };
 
     // Add book to cart
     const handleAddToCart = async (bookId) => {
@@ -200,7 +204,7 @@ const ViewBook = () => {
             )}
             <div className="Books">
                 <div className="Name_menu">
-                    <h1>{book.title || 'Untitled Book'}</h1>
+                    <h1 style={{paddingLeft:"20px"}}>{book.title || 'Untitled Book'}</h1>
                 </div>
             </div>
             <div className="product-view">
@@ -210,11 +214,31 @@ const ViewBook = () => {
                 <div className="product-details">
                     <h1>{book.title || 'Untitled Book'}</h1>
                     <span>
-                        <strong>by:</strong> <p>{book.author.name || 'Unknown Author'}</p>
+                        <strong>by:</strong>
+                        <p
+                            onClick={() => Author_Name(book.author.id)}
+                            style={{
+                                cursor: "pointer",
+                                transition: "color 0.3s ease, text-decoration 0.3s ease",
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.color = 'blue';
+                                e.target.style.textDecoration = 'underline';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.color = '';
+                                e.target.style.textDecoration = '';
+                            }}
+                        >
+                            {book.author.name || 'Unknown Author'}
+                        
+                        </p>
+                        (Author)
                     </span>
+                    <p>Category: {book.category.name || 'N/A'}</p>
                     <p>{book.description || 'No description available.'}</p>
                     <div className="product-price">
-                        <p><strong>Physical Book Price:</strong> ${book.price_handbook}</p>
+                        <p><strong>Price:</strong> ${book.price_handbook}</p>
                     </div>
                     <div className="controll_button">
                         <button onClick={() => handleAddToCart(book.id)}>
@@ -228,7 +252,7 @@ const ViewBook = () => {
                         >
                             <BookmarkIcon
                                 style={{
-                                    fontSize:'25px',
+                                    fontSize: '25px',
                                     color: favoriteBooks[book.id] ? 'red' : 'black'
                                 }}
                             />
@@ -257,7 +281,7 @@ const ViewBook = () => {
             </div>
             <div className="related-books">
                 <h2>Related Books</h2>
-                <div className="item_books">
+                <div className="template_books">
                     {relatedBooks.map((relatedBook, index) => (
                         <div key={index} className="items" onClick={() => handleBookClick(relatedBook.id)} style={{ cursor: 'pointer' }}>
                             <div className="book_item">
@@ -267,7 +291,7 @@ const ViewBook = () => {
                                 <h1>{relatedBook.title || 'Untitled'}</h1>
                                 <p>{relatedBook.description || 'No description available.'}</p>
                                 <div className="price">
-                                    <span>${relatedBook.price_handbook }</span>
+                                    <span>${relatedBook.price_handbook}</span>
                                 </div>
                                 <div className="buy_item">
                                     <div
@@ -292,6 +316,7 @@ const ViewBook = () => {
                         </div>
                     ))}
                 </div>
+                <BookReviews />
             </div>
         </>
     );

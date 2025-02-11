@@ -18,6 +18,7 @@ import Category from './components/Categories/Category';
 import SearchResults from '../src/components/Searching/Searching_book'
 import { useState, useEffect } from 'react';
 import MenuItem from './components/MenuItem';
+import FeaturedAuthors from './components/Authors/FeatureAuther';
 import axios_api from './API/axios';
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -116,6 +117,7 @@ const App = () => {
           <Route path="/book/:id" element={<ViewBook />} />
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/discount" element={<DiscountBooks />}/>
+          <Route path="/featureauthor" element={<FeaturedAuthors/>} />
         </Routes>
       </div>
       <Footer />

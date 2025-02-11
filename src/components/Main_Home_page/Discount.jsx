@@ -162,6 +162,15 @@ const NewBook = () => {
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
     };
+    if (loading) return(
+        <><LinearProgress />
+        <div style={{height:"500px"}}>
+    
+        </div>
+        </>
+      
+    );
+        if (error) return <p>Error: {error}</p>;
 
     return (
         <>
@@ -226,8 +235,6 @@ const NewBook = () => {
                                             {discountPercentage}% OFF
                                         </div>
                                     <div className="book_item">
-            
-                        
                                         <img src={book.cover_path || 'fallback_image_url'} alt={book.title} />
                                     </div>
                                     <div className="descript_item">

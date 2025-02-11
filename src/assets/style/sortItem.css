@@ -6,6 +6,7 @@
     color: var(--primary-color);
     font-family: "Roboto", "Nokora", sans-serif;
 }
+
 .sortItems{
     display: flex;
     display: flex;
@@ -30,8 +31,6 @@
     font-family: "Roboto", "Nokora", sans-serif;
 }
 .sortItem {
-    position: sticky;
-    top: 113px;
     z-index: 50;
     height: 50px;
     width: 100%;
@@ -72,24 +71,25 @@
     border-radius: 10px;
     width: 25%;
     padding: 10px;
-    box-shadow: 1px 1px 5px var(--black-blure-color);
+    box-shadow: 1px 1px 5px red;
 }
 
 .item_authors li {
     margin: 0;
     list-style: none;
-    border-bottom: 1px solid var(--black-blure-color);
+    border-bottom: 1px solid red;
     height: auto;
     width: 100%;
     cursor: pointer;
     padding: 5px 0 5px 0;
+
 
 }
 
 .item_authors li h2 {
     margin: 0;
     font-size: 15px;
-    color: var(--black-blure-color);
+    color: rgb(246, 7, 7);
     font-family: "Roboto", "Nokora", sans-serif;
 
 }
@@ -123,7 +123,7 @@
 
 .seeMores h1 {
     font-size: 15px;
-    color: var(--black-blure-color);
+    color: red;
     font-family: "Roboto", "Nokora", sans-serif;
 }
 
@@ -134,7 +134,7 @@
     gap: 20px;
     height: 30px;
     width: 100px;
-    border: 1px solid var(--black-blure-color);
+    border: 2px solid red;
     cursor: pointer;
 
 }
@@ -167,7 +167,7 @@
     width: 270px;
     height: 450px;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px var(--black-blure-color);
+    box-shadow: 0px 0px 5px rgb(190, 190, 190);
     
 }
 
@@ -203,7 +203,7 @@
     padding: 0;
     margin: 0;
     font-size: 15px;
-    color: var(--black-blure-color);
+    color:rgb(109, 109, 109);
     transition: 0.2s linear;
     cursor: pointer;
     font-family: "Roboto", "Nokora", sans-serif;
@@ -221,7 +221,7 @@
     margin: 0;
     padding: 0;
     font-size: 15px;
-    color: var(--black-blure-color);
+    color:var(text-color);
     font-family: "Roboto", "Nokora", sans-serif;
     display: -webkit-box;       /* Use WebKit box layout for clamping */
     -webkit-line-clamp: 3;      /* Limit to 2 lines */

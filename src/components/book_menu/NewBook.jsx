@@ -22,7 +22,7 @@ const NewBook = () => {
     const [price, setPrice] = useState(100);
     const [discount, setDiscount] = useState(80);
 
-    const categories = ['Educations', 'Horror', 'History', 'Fiction Books'];
+    const categories = ['Education', 'Horror', 'History', 'Fiction Books'];
 
     const fetchNewBooks = async () => {
         try {
@@ -182,14 +182,21 @@ const NewBook = () => {
         fetchFavoriteBooks();
     }, []);
 
-    const handleSnackbarClose = () => {
-        setSnackbarOpen(false);
-    };
 
     const handleBookClick = (bookId) => {
         navigate(`/book/${bookId}`);
     };
+    if (loading) return (
+        <>
+            <LinearProgress />
+            <div style={{ height: "500px" }}>
 
+            </div>
+        </>);
+    if (error) return <p>Error: {error}</p>;
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
     return (
         <>
             {error && <div>Error: {error}</div>}
@@ -256,7 +263,7 @@ const NewBook = () => {
                                         <h1>{book.title}</h1>
                                         <p>{book.description || "No description available."}</p>
                                         <div className="price">
-                                        <span>USD {(parseFloat(book.price_handbook) || 0).toFixed(2) || "N/A"}</span>
+                                            <span>USD {(parseFloat(book.price_handbook) || 0).toFixed(2) || "N/A"}</span>
                                         </div>
                                         <div className="descript_item">
                                             <div className="buy_item">

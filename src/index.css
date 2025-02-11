@@ -1,8 +1,9 @@
 
 :root {
-  --primary-color:#7786e3;
+  --primary-color:#ff0000;
   --black-white-color:#ffffff;
-  --black-blure-color:#ac0aa6;
+  --black-blure-color:#ffffff;
+  --text-color:#343434;
 }
 .active-link {
   color: #ff4500; /* Highlight color for active routes */

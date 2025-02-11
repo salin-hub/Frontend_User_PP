@@ -132,7 +132,13 @@ const Authors = () => {
 
     const handleSnackbarClose = () => setSnackbarOpen(false);
 
-    if (loading) return <LinearProgress />;
+    if (loading) return (
+        <>
+            <LinearProgress />
+            <div style={{ height: "500px" }}>
+
+            </div>
+        </>);
     if (error) return <div>{error}</div>;
     if (!author) return <div>No author found</div>;
 
@@ -167,13 +173,13 @@ const Authors = () => {
 
             <div className="Books">
                 <div className="Name_menu">
-                    <h1>Books</h1>
+                    <h1>Book Collection</h1>
                 </div>
             </div>
 
             <div className="template_book">
                 {author.books && author.books.map((book) => (
-                    <div className="items" key={book.id}  onClick={() => handleBookClick(book.id)} style={{ cursor: 'pointer' }}>
+                    <div className="items" key={book.id} onClick={() => handleBookClick(book.id)} style={{ cursor: 'pointer' }}>
                         <div className="book_item">
                             <img src={book.cover_path} alt={book.title} />
                         </div>
@@ -182,7 +188,7 @@ const Authors = () => {
                             <p>{book.description}</p>
                             <div className="price">
                                 <span>USD {book.price_handbook}</span>
-                        
+
                             </div>
                             <div className="buy_item">
                                 <div

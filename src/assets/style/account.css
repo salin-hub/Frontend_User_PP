@@ -288,6 +288,9 @@ a:hover {
 .sign-out:hover {
   background-color: #ff4d4d;
 }
+.profile_aut{
+  padding: 10px;
+}
 
 @keyframes slideOut {
   0% {

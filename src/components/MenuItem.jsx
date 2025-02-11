@@ -108,10 +108,10 @@ const MenuItem = () => {
                 <div className="title_item">
                     <ul>
                         <li><Link to="/newbook">New Books</Link></li>
-                        <li><Link to="/discount">Best Seller</Link></li>
-                        <li>Featured Authors</li>
+                        <li>Best Seller</li>
+                        <li><Link to="/featureauthor">Featured Authors</Link> </li>
                         <li>Recommended Book</li>
-                        <li>Deal Of The Day</li>
+                        <li><Link to="/discount">Deal Of The Day</Link></li>
                     </ul>
                 </div>
             </div>
