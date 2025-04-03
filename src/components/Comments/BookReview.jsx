@@ -1,26 +1,45 @@
-import{ useState } from "react";
-import { 
-    Box, Typography, Button, Card, CardContent, Rating, 
-    TextField, Select, MenuItem, Checkbox, FormControlLabel, 
-    Divider
+import { useState } from "react";
+import {
+    Box, Typography, Button, Card, CardContent, Rating,
+    TextField, Select, MenuItem,
+    Divider, Avatar
 } from "@mui/material";
+import PropTypes from "prop-types";
+import { formatDistanceToNow } from 'date-fns';
+import axios_api from "../../API/axios";
 
-const reviews = [
-    { id: 1, name: "dechen", stars: 5, title: "Clean print, good paper", content: "This review is about the content of the book, not about the delivery...", recommend: "yes", helpful: 2, report: 4 },
-    { id: 2, name: "John Doe", stars: 4, title: "Interesting read", content: "Great book, but the language is a bit difficult...", recommend: "yes", helpful: 5, report: 1 }
-];
-
-const BookReviews = () => {
+const BookReviews = ({ bookDetails }) => {
     const [showForm, setShowForm] = useState(false);
     const [rating, setRating] = useState(0);
     const [reviewTitle, setReviewTitle] = useState("");
     const [reviewContent, setReviewContent] = useState("");
     const [recommend, setRecommend] = useState("");
 
-    const handleSubmit = () => {
-        console.log("Submitted Review:", { rating, reviewTitle, reviewContent, recommend });
-        setShowForm(false); // Hide form after submission
+    const handleSubmit = async () => {
+        try {
+            const user_id = localStorage.getItem("userID");
+
+            if (!user_id) {
+                console.error("User ID not found. Please log in.");
+                return;
+            }
+            const response = await axios_api.post("/addReview", {
+                user_id,
+                book_id: bookDetails.book.id,
+                title: reviewTitle,
+                rating,
+                review: reviewContent,
+                recommended: recommend === "yes"
+            });
+
+            console.log("Review submitted successfully:", response.data);
+            setShowForm(false);
+        } catch (error) {
+            console.error("Error submitting review:", error.response?.data || error.message);
+        }
     };
+
+
 
     return (
         <Box sx={{ width: "90%", margin: "auto", padding: 3 }}>
@@ -31,7 +50,7 @@ const BookReviews = () => {
 
             {/* Rating Scale */}
             <Box sx={{ textAlign: "center", marginBottom: 3 }}>
-                <Rating value={0} size="large" />
+                <Rating value={rating} onChange={(event, newValue) => setRating(newValue)} size="large" />
                 <Typography variant="body2">Very poor - Neutral - Great</Typography>
             </Box>
 
@@ -39,12 +58,13 @@ const BookReviews = () => {
             <Card sx={{ padding: 2, marginBottom: 2 }}>
                 <Typography variant="h6">Customer Reviews</Typography>
                 <Box display="flex" alignItems="center">
-                    <Rating value={4.5} readOnly precision={0.5} />
+                    <Rating value={bookDetails.avergaeRating} readOnly precision={0.5} />
                     <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                        4.5 | 6 Reviews
+                        {parseFloat(bookDetails.avergaeRating).toFixed(2)} | {bookDetails.recommendationCount} Reviews
                     </Typography>
+
                 </Box>
-                <Typography variant="body2">6 out of 6 (100%) reviewers recommend this product</Typography>
+                <Typography variant="body2">{bookDetails.recommendationCount} out of {bookDetails.recommendationCount} ({bookDetails.recomendations})% of reviewers recommend this product</Typography>
             </Card>
 
             {/* Rating Breakdown */}
@@ -66,11 +86,11 @@ const BookReviews = () => {
             </Card>
 
             {/* Write a Review Button */}
-            <Button 
-                variant="contained" 
-                color="error" 
-                fullWidth 
-                sx={{ marginBottom: 2 }} 
+            <Button
+                variant="contained"
+                color="error"
+                fullWidth
+                sx={{ marginBottom: 2 }}
                 onClick={() => setShowForm(!showForm)}
             >
                 {showForm ? "Cancel Review" : "Write A Review"}
@@ -84,59 +104,52 @@ const BookReviews = () => {
 
                         {/* Rating Input */}
                         <Typography sx={{ marginTop: 1 }}>Overall Rating</Typography>
-                        <Rating 
-                            value={rating} 
-                            onChange={(event, newValue) => setRating(newValue)} 
+                        <Rating
+                            value={rating}
+                            onChange={(event, newValue) => setRating(newValue)}
                             size="large"
                         />
 
                         {/* Review Title */}
-                        <TextField 
-                            fullWidth 
-                            label="Review Title" 
-                            variant="outlined" 
-                            sx={{ marginTop: 2 }} 
-                            value={reviewTitle} 
+                        <TextField
+                            fullWidth
+                            label="Review Title"
+                            variant="outlined"
+                            sx={{ marginTop: 2 }}
+                            value={reviewTitle}
                             onChange={(e) => setReviewTitle(e.target.value)}
                         />
 
                         {/* Review Content */}
-                        <TextField 
-                            fullWidth 
-                            label="Your Review" 
-                            multiline 
-                            rows={4} 
-                            variant="outlined" 
-                            sx={{ marginTop: 2 }} 
-                            value={reviewContent} 
+                        <TextField
+                            fullWidth
+                            label="Your Review"
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                            sx={{ marginTop: 2 }}
+                            value={reviewContent}
                             onChange={(e) => setReviewContent(e.target.value)}
                         />
 
                         {/* Recommendation */}
                         <Typography sx={{ marginTop: 2 }}>Would you recommend this book?</Typography>
-                        <Select 
-                            fullWidth 
-                            value={recommend} 
-                            onChange={(e) => setRecommend(e.target.value)} 
+                        <Select
+                            fullWidth
+                            value={recommend}
+                            onChange={(e) => setRecommend(e.target.value)}
                         >
                             <MenuItem value="yes">Yes</MenuItem>
                             <MenuItem value="no">No</MenuItem>
                         </Select>
 
-                        {/* Terms Agreement */}
-                        <FormControlLabel 
-                            control={<Checkbox />} 
-                            label="I agree to the terms & conditions"
-                            sx={{ marginTop: 2 }}
-                        />
-
                         <Divider sx={{ marginY: 2 }} />
 
                         {/* Submit Button */}
-                        <Button 
-                            variant="contained" 
-                            color="primary" 
-                            fullWidth 
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
                             onClick={handleSubmit}
                         >
                             Post Review
@@ -146,7 +159,7 @@ const BookReviews = () => {
             )}
 
             {/* Sorting */}
-            <Box display="flex" justifyContent="flex-end" sx={{ marginBottom: 2,display:"flex",alignItems:"center"}}>
+            <Box display="flex" justifyContent="flex-end" sx={{ marginBottom: 2, display: "flex", alignItems: "center" }}>
                 <Typography variant="body2" sx={{ marginRight: 1 }}>
                     Sort by:
                 </Typography>
@@ -159,21 +172,53 @@ const BookReviews = () => {
             </Box>
 
             {/* Reviews List */}
-            {reviews.map((review) => (
-                <Card key={review.id} sx={{ marginBottom: 2 }}>
-                    <CardContent>
-                        <Typography variant="h6">{review.title}</Typography>
-                        <Rating value={review.stars} readOnly />
-                        <Typography variant="body2" sx={{ marginBottom: 1 }}>
-                            {review.content}
-                        </Typography>
-                        <Divider sx={{ marginY: 1 }} />
-                        <Typography variant="body2">Helpful? Yes: {review.helpful} | Report: {review.report}</Typography>
-                    </CardContent>
-                </Card>
-            ))}
+            {bookDetails.book.reviews.length > 0 ? (
+                bookDetails.book.reviews.map((review, index) => (
+                    <Card key={index} sx={{ marginBottom: 2 }}>
+                        <CardContent>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <Avatar src={"/default-avatar.png"} alt={review.user.name} />
+                                <Typography variant="h6">{review.user.name}</Typography>
+                            </div>
+                            <Typography variant="body2" sx={{ marginTop: 1 }}>
+                                Reviewed {formatDistanceToNow(new Date(review.created_at), { addSuffix: true })}
+                            </Typography>
+                            <Typography variant="h6">{review.title}</Typography>
+                            <Rating value={review.rating} readOnly />
+                            <Typography variant="body2" sx={{ marginBottom: 1 }}>
+                                {review.review}
+                            </Typography>
+                            <Divider sx={{ marginY: 1 }} />
+                        </CardContent>
+                    </Card>
+                ))
+            ) : (
+                <Typography>No reviews yet.</Typography>
+            )}
         </Box>
     );
+};
+
+BookReviews.propTypes = {
+    bookDetails: PropTypes.shape({
+        book: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            title: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            reviews: PropTypes.arrayOf(
+                PropTypes.shape({
+                    id: PropTypes.number.isRequired,
+                    title: PropTypes.string.isRequired,
+                    review: PropTypes.string.isRequired,
+                    rating: PropTypes.number.isRequired,
+                    created_at: PropTypes.string.isRequired,
+                })
+            ).isRequired
+        }).isRequired,
+        avergaeRating: PropTypes.number.isRequired,
+        recomendations: PropTypes.number.isRequired,
+        recommendationCount: PropTypes.number.isRequired
+    }).isRequired
 };
 
 export default BookReviews;

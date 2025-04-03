@@ -2,11 +2,9 @@ import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-do
 import { useState, useEffect } from 'react';
 import axios_api from './API/axios';
 import './App.css';
-
-// Import Assets
+import { CartProvider } from './components/Contexts/CartContext.jsx';
+import { FavoriteProvider } from './components/Contexts/FavoriteContext.jsx';
 import mainlogo from './assets/Images/mainlogo.png';
-
-// Import Components
 import Home from './components/Home';
 import MainPage from './components/MainPage';
 import SearchingItem from './components/filter_item/Searching_item';
@@ -24,7 +22,8 @@ import Category from './components/Categories/Category';
 import SearchResults from './components/Searching/Searching_book';
 import MenuItem from './components/MenuItem';
 import FeaturedAuthors from './components/Authors/FeatureAuther';
-
+import Best_seller from './components/Main_Home_page/Best_seller.jsx';
+import Recommendations from './components/Recommend_book.jsx';
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const userId = localStorage.getItem('userID');
@@ -50,6 +49,8 @@ const App = () => {
 
   return (
     <Router>
+      <CartProvider> 
+        <FavoriteProvider>
       {/* Navigation Bar */}
       <div className="navbar">
         <div className="logoapp">
@@ -101,12 +102,17 @@ const App = () => {
           <Route path="/search-results" element={<SearchResults />} />
           <Route path="/discount" element={<DiscountBooks />} />
           <Route path="/featureauthor" element={<FeaturedAuthors />} />
+          <Route path="/BestSeller" element={<Best_seller />} />
+          <Route path="/recomment_book" element={<Recommendations/>}/>
           <Route path="/login" element={<Login />} />
         </Routes>
       </div>
 
       {/* Footer */}
       <Footer />
+      </FavoriteProvider>
+      </CartProvider>
+
     </Router>
   );
 };

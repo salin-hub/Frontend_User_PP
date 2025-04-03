@@ -63,7 +63,7 @@ const Signup = () => {
         <div className="container_account">
             <div className="form-container">
                 <div className="signup-box">
-                    <h2>SIGNUP</h2>
+                    <h2 style={{"color":"black"}}>SIGNUP</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="input-box">
                             <FaUser />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../assets/style/ProductView.css';
-import cart from '../assets/Images/cart.png';
+import { FaStar, FaRegStar } from "react-icons/fa";
 // import Mark from '../assets/Images/bookmark.png';
 import axios_api from '../API/axios';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -9,8 +9,6 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import markbookIcon from '../assets/Images/bookmark.png';
-import markbookIcon_red from '../assets/Images/bookmark_red.png';
 import { useNavigate } from 'react-router-dom';
 import BookReviews from './Comments/BookReview';
 const ViewBook = () => {
@@ -28,8 +26,8 @@ const ViewBook = () => {
         try {
             setLoading(true);
             const response = await axios_api.get(`/book/${id}`);
-            setBook(response.data.book || {});
-            setRelatedBooks(response.data.relatedBooks || []);
+            setBook(response.data.bookDetails || {});
+            setRelatedBooks(response.data.bookDetails.relatedBooks || []);
         } catch (err) {
             console.error('Error fetching book details:', err);
             setError('Failed to load book details.');
@@ -39,6 +37,13 @@ const ViewBook = () => {
     };
     const handleBookClick = (bookId) => {
         navigate(`/book/${bookId}`);
+    };
+    const renderStars = (rating) => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(i <= rating ? <FaStar key={i} color="#FFD700" /> : <FaRegStar key={i} color="#FFD700" />);
+        }
+        return stars;
     };
 
     // Add a book to favorites
@@ -204,22 +209,22 @@ const ViewBook = () => {
             )}
             <div className="Books">
                 <div className="Name_menu">
-                    <h1 style={{paddingLeft:"20px"}}>{book.title || 'Untitled Book'}</h1>
+                    <h1 style={{ paddingLeft: "20px" }}>{book.book.title || 'Untitled Book'}</h1>
                 </div>
             </div>
             <div className="product-view">
                 <div className="product-image">
-                    <img src={book.cover_path} alt={book.title} />
+                    <img src={book.book.cover_path} alt={book.book.title} />
                 </div>
                 <div className="product-details">
-                    <h1>{book.title || 'Untitled Book'}</h1>
+                    <h1>{book.book.title || 'Untitled Book'}</h1>
                     <span>
                         <strong>by:</strong>
                         <p
-                            onClick={() => Author_Name(book.author.id)}
+                            onClick={() => Author_Name(book.book.author.id)}
                             style={{
-                                cursor: "pointer",
-                                transition: "color 0.3s ease, text-decoration 0.3s ease",
+                                cursor: 'pointer',
+                                transition: 'color 0.3s ease, text-decoration 0.3s ease',
                             }}
                             onMouseEnter={(e) => {
                                 e.target.style.color = 'blue';
@@ -230,35 +235,33 @@ const ViewBook = () => {
                                 e.target.style.textDecoration = '';
                             }}
                         >
-                            {book.author.name || 'Unknown Author'}
-                        
+                            {book.book.author.name || 'Unknown Author'}
                         </p>
                         (Author)
                     </span>
-                    <p>Category: {book.category.name || 'N/A'}</p>
-                    <p>{book.description || 'No description available.'}</p>
+                    <p>Category: {book.book.category.name || 'N/A'}</p>
+                    <p>{book.book.description || 'No description available.'}</p>
                     <div className="product-price">
-                        <p><strong>Price:</strong> ${book.price_handbook}</p>
+                        <p><strong>Price:</strong> ${book.book.price_handbook}</p>
                     </div>
                     <div className="controll_button">
-                        <button onClick={() => handleAddToCart(book.id)}>
-                            <ShoppingCartIcon style={{ fontsize: "20px" }} />
+                        <button onClick={() => handleAddToCart(book.book.id)}>
+                            <ShoppingCartIcon style={{ fontSize: '20px' }} />
                         </button>
                         <button
-
                             onClick={() =>
-                                favoriteBooks[book.id] ? deleteFavorite(book.id) : handleFavorite(book.id)
+                                favoriteBooks[book.book.id]
+                                    ? deleteFavorite(book.book.id)
+                                    : handleFavorite(book.book.id)
                             }
                         >
                             <BookmarkIcon
                                 style={{
                                     fontSize: '25px',
-                                    color: favoriteBooks[book.id] ? 'red' : 'black'
+                                    color: favoriteBooks[book.book.id] ? 'red' : 'black',
                                 }}
                             />
                         </button>
-
-
                     </div>
                 </div>
             </div>
@@ -266,57 +269,75 @@ const ViewBook = () => {
                 <h2>Book Details</h2>
                 <div className="details">
                     <div className="details_1">
-                        <div><strong>Publisher:</strong> {book?.publisher || 'N/A'}</div>
-                        <div><strong>Publish Date:</strong> {book?.publish_date || 'N/A'}</div>
-                        <div><strong>Author:</strong> {book.author.name}</div>
-                        <div><strong>Pages:</strong> {book?.pages || 'N/A'}</div>
+                        <div><strong>Publisher:</strong> {book.book?.publisher || 'N/A'}</div>
+                        <div><strong>Publish Date:</strong> {book.book?.publish_date || 'N/A'}</div>
+                        <div><strong>Author:</strong> {book.book.author.name}</div>
+                        <div><strong>Pages:</strong> {book.book?.pages || 'N/A'}</div>
                     </div>
                     <div className="details_2">
-                        <div><strong>Dimensions:</strong> {book?.dimensions || 'N/A'}</div>
-                        <div><strong>Language:</strong> {book?.language || 'N/A'}</div>
-                        <div><strong>EAN:</strong> {book?.ean || 'N/A'}</div>
-                        <div><strong>Cetegory:</strong> {book.category.name || 'N/A'}</div>
+                        <div><strong>Dimensions:</strong> {book.book?.dimensions || 'N/A'}</div>
+                        <div><strong>Language:</strong> {book.book?.language || 'N/A'}</div>
+                        <div><strong>EAN:</strong> {book.book?.ean || 'N/A'}</div>
+                        <div><strong>Cetegory:</strong> {book.book.category.name || 'N/A'}</div>
                     </div>
                 </div>
             </div>
             <div className="related-books">
                 <h2>Related Books</h2>
-                <div className="template_books">
-                    {relatedBooks.map((relatedBook, index) => (
-                        <div key={index} className="items" onClick={() => handleBookClick(relatedBook.id)} style={{ cursor: 'pointer' }}>
-                            <div className="book_item">
-                                <img src={relatedBook.cover_path} alt={relatedBook.title} />
+                <div className="list_other">
+                    {relatedBooks.map((item) => (
+                        <div className="item" key={item.id} style={{ cursor: 'pointer',position: 'relative' }}>
+                             {item.discount_percentage > 0 && (
+                                <div
+                                    style={{
+                                        width: '20px',
+                                        height: '20px',
+                                        position: 'absolute',
+                                        top: '5px',
+                                        left: '10px',
+                                        backgroundColor: 'red',
+                                        color: 'white',
+                                        padding: '10px',
+                                        borderRadius: '50%',
+                                        fontWeight: 'bold',
+                                        fontSize: '14px',
+                                        zIndex: '10',
+                                    }}
+                                >
+                                    {item.discount_percentage}%
+                                </div>
+                            )}
+                            <div
+                                className="cover_item"
+                                onClick={() => navigate(`/book/${item.id}`)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                <img src={item.cover_path} alt={item.title} />
                             </div>
-                            <div className="descript_item">
-                                <h1>{relatedBook.title || 'Untitled'}</h1>
-                                <p>{relatedBook.description || 'No description available.'}</p>
-                                <div className="price">
-                                    <span>${relatedBook.price_handbook}</span>
+                            <div className="text_item">
+                                <h1>{item.title}</h1>
+                                <p>{item.description}</p>
+                                <div className="rating">{renderStars(item.averageRating)}</div>
+                                <div className="price_item">
+                                {item.discounted_price && item.discounted_price < item.oragenal_price? (
+                                            <>
+                                                <span style={{ textDecoration: "line-through", color: "gray", marginRight: "10px" }}>
+                                                    ${item.oragenal_price}
+                                                </span>
+                                                <span style={{ fontWeight: "bold", color: "red" }}>
+                                                    ${item.discounted_price}
+                                                </span>
+                                            </>
+                                        ) : (
+                                            <span style={{ fontWeight: "bold" }}>$ {item.oragenal_price}</span>
+                                        )}
                                 </div>
-                                <div className="buy_item">
-                                    <div
-                                        className="buy"
-                                        onClick={() => handleAddToCart(relatedBook.id)}
-                                    >
-                                        <img src={cart} alt="Buy Now" />
-                                        <span>Cart</span>
-                                    </div>
-                                    <img
-                                        src={favoriteBooks[relatedBook.id] ? markbookIcon_red : markbookIcon}
-                                        alt="Bookmark"
-                                        onClick={() =>
-                                            favoriteBooks[relatedBook.id]
-                                                ? deleteFavorite(relatedBook.id)
-                                                : handleFavorite(relatedBook.id)
-                                        }
-                                        style={{ cursor: 'pointer' }}
-                                    />
-                                </div>
+                                
                             </div>
                         </div>
                     ))}
                 </div>
-                <BookReviews />
+                <BookReviews bookDetails ={book}/>
             </div>
         </>
     );

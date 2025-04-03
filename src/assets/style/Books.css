@@ -51,7 +51,6 @@
   font-family: "Roboto", "Nokora", sans-serif;
   color: var(--black-color);
 }
-
 .pagination-container {
   width: 90%;
   height: 40px;
@@ -59,7 +58,6 @@
   align-items: center;
   justify-content: flex-end;
 }
-
 .pagination-arrow {
   height: 30px;
   width: 50px;

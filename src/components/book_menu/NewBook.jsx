@@ -190,7 +190,6 @@ const NewBook = () => {
         <>
             <LinearProgress />
             <div style={{ height: "500px" }}>
-
             </div>
         </>);
     if (error) return <p>Error: {error}</p>;

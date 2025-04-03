@@ -28,6 +28,38 @@ const UserProfile = () => {
       setLoading(false);
     }
   };
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        // If token is not available in localStorage, consider user already logged out
+        return navigate('/login');
+      }
+  
+      // Send logout request to the server
+      await axios_api.post(
+        '/logout',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        }
+      );
+  
+      // Clear localStorage after successful logout
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('Role');
+      localStorage.removeItem('userID'); // Clear user-specific data
+  
+      // Redirect to login page after successful logout
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      alert('Failed to log out. Please try again.');
+    }
+  };
+  
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -97,11 +129,7 @@ const UserProfile = () => {
             </div>
             <button
               className="sign-out"
-              onClick={() => {
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('Role');
-                navigate('/login');
-              }}
+              onClick={handleLogout}
             >
               <div className="signout_img">
                 <img src={Exit} alt="Sign Out" />
