@@ -58,9 +58,9 @@ const BookReviews = ({ bookDetails }) => {
             <Card sx={{ padding: 2, marginBottom: 2 }}>
                 <Typography variant="h6">Customer Reviews</Typography>
                 <Box display="flex" alignItems="center">
-                    <Rating value={bookDetails.avergaeRating} readOnly precision={0.5} />
+                    <Rating value={bookDetails.averageRating} readOnly precision={0.5} />
                     <Typography variant="body1" sx={{ marginLeft: 1 }}>
-                        {parseFloat(bookDetails.avergaeRating).toFixed(2)} | {bookDetails.recommendationCount} Reviews
+                        {parseFloat(bookDetails.averageRating).toFixed(2)} | {bookDetails.recommendationCount} Reviews
                     </Typography>
 
                 </Box>
@@ -215,7 +215,7 @@ BookReviews.propTypes = {
                 })
             ).isRequired
         }).isRequired,
-        avergaeRating: PropTypes.number.isRequired,
+        averageRating: PropTypes.number.isRequired,
         recomendations: PropTypes.number.isRequired,
         recommendationCount: PropTypes.number.isRequired
     }).isRequired

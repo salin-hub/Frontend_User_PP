@@ -15,30 +15,20 @@ const MenuItem = () => {
     const [state, setState] = useState({ left: false });
     const [hoveredCategory, setHoveredCategory] = useState(null);
     const navigate = useNavigate();
-    const localSubcategories = {
-        1: [{ id: 101, name: "Fantasy" }, { id: 102, name: "Mystery" }],
-        2: [{ id: 201, name: "Physics" }, { id: 202, name: "Biology" }],
-        3: [{ id: 301, name: "Drama" }, { id: 302, name: "Horror" }],
-        4: [{ id: 401, name: "History" }, { id: 402, name: "Politics" }],
-    };
+    
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await axios_api.get("/categories");
-                const fetchedCategories = response.data.categories || [];
-                const categoriesWithSub = fetchedCategories.map((category) => ({
-                    ...category,
-                    subcategories: localSubcategories[category.id] || [], // Use local subcategories
-                }));
-
-                setCategories(categoriesWithSub);
+                setCategories(response.data.categories || []);
             } catch (error) {
                 console.error("Failed to load categories", error);
             }
         };
         fetchCategories();
-    }, []);
+    }, []); 
+
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) return;
@@ -49,9 +39,16 @@ const MenuItem = () => {
         navigate(`/category/${category.id}`);
     };
 
-    const handleSubcategoryClick = (subcategory) => {
-        navigate(`/subcategory/${subcategory.id}`);
+    const handleSubcategoryClick = async (subcategory) => {
+        try {
+            const response = await axios_api.get(`/subcategories/${subcategory.id}/books`);
+            console.log("Books in Subcategory:", response.data.books);
+            navigate(`/subcategories/${subcategory.id}/books`, { state: { books: response.data.books } });
+        } catch (error) {
+            console.error("Failed to fetch books for subcategory", error);
+        }
     };
+    
 
     const handleMouseEnter = (category) => {
         setHoveredCategory(category.id);
@@ -98,7 +95,7 @@ const MenuItem = () => {
         <>
             <div className="menu_box">
                 <div className="icon_menu" onClick={toggleDrawer("left", true)}>
-                    <i className="fa-solid fa-bars"></i><h1>Categories</h1>
+                    <i className="fa-solid fa-bars"></i>
                 </div>
 
                 <Drawer anchor="left" open={state.left} onClose={toggleDrawer("left", false)}>
@@ -110,7 +107,6 @@ const MenuItem = () => {
                         <li><Link to="/newbook">New Books</Link></li>
                         <li><Link to="/BestSeller">Best Seller </Link></li>
                         <li><Link to="/featureauthor">Featured Authors</Link> </li>
-                        <li><Link to="/recomment_book">Recommended Book</Link></li>
                         <li><Link to="/discount">Deal Of The Day</Link></li>
                     </ul>
                 </div>

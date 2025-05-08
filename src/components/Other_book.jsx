@@ -65,8 +65,8 @@ const Other_book = () => {
                     <i className="fa-solid fa-chevron-left"></i>
                 </div>
                 <div className="list_other">
-                    {items.map((item) => (
-                        <div className="item" key={item.id} style={{ cursor: 'pointer',position: 'relative' }}>
+                    {items.map((item,index) => (
+                        <div className="item" key={index} style={{ cursor: 'pointer',position: 'relative' }}>
                              {item.discount_percentage > 0 && (
                                 <div
                                     style={{

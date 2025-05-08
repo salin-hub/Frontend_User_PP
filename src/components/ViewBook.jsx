@@ -11,6 +11,19 @@ import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { useNavigate } from 'react-router-dom';
 import BookReviews from './Comments/BookReview';
+import {
+    Box, Typography, Rating,
+
+} from "@mui/material";
+import {
+    Card,
+    CardMedia,
+    CardContent,
+    Button,
+    IconButton,
+    Divider,
+    Stack,
+} from '@mui/material';
 const ViewBook = () => {
     const { id } = useParams(); // Book ID from URL params
     const [loading, setLoading] = useState(true);
@@ -35,9 +48,7 @@ const ViewBook = () => {
             setLoading(false);
         }
     };
-    const handleBookClick = (bookId) => {
-        navigate(`/book/${bookId}`);
-    };
+
     const renderStars = (rating) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
@@ -207,64 +218,142 @@ const ViewBook = () => {
                     </Alert>
                 </Snackbar>
             )}
-            <div className="Books">
-                <div className="Name_menu">
-                    <h1 style={{ paddingLeft: "20px" }}>{book.book.title || 'Untitled Book'}</h1>
-                </div>
-            </div>
-            <div className="product-view">
-                <div className="product-image">
-                    <img src={book.book.cover_path} alt={book.book.title} />
-                </div>
-                <div className="product-details">
-                    <h1>{book.book.title || 'Untitled Book'}</h1>
-                    <span>
-                        <strong>by:</strong>
-                        <p
-                            onClick={() => Author_Name(book.book.author.id)}
-                            style={{
-                                cursor: 'pointer',
-                                transition: 'color 0.3s ease, text-decoration 0.3s ease',
-                            }}
-                            onMouseEnter={(e) => {
-                                e.target.style.color = 'blue';
-                                e.target.style.textDecoration = 'underline';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.color = '';
-                                e.target.style.textDecoration = '';
-                            }}
-                        >
-                            {book.book.author.name || 'Unknown Author'}
-                        </p>
-                        (Author)
-                    </span>
-                    <p>Category: {book.book.category.name || 'N/A'}</p>
-                    <p>{book.book.description || 'No description available.'}</p>
-                    <div className="product-price">
-                        <p><strong>Price:</strong> ${book.book.price_handbook}</p>
-                    </div>
-                    <div className="controll_button">
-                        <button onClick={() => handleAddToCart(book.book.id)}>
-                            <ShoppingCartIcon style={{ fontSize: '20px' }} />
-                        </button>
-                        <button
-                            onClick={() =>
-                                favoriteBooks[book.book.id]
-                                    ? deleteFavorite(book.book.id)
-                                    : handleFavorite(book.book.id)
-                            }
-                        >
-                            <BookmarkIcon
-                                style={{
-                                    fontSize: '25px',
-                                    color: favoriteBooks[book.book.id] ? 'red' : 'black',
+
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+
+                }}
+            >
+                <Card
+                    sx={{
+                        display: 'flex',
+                        flexDirection: { xs: 'column', md: 'row' },
+                        p: 2,
+                        maxWidth: 1000,
+                        width: '100%',
+                        boxShadow: 'none'
+                    }}
+                >
+                    <CardMedia
+                        component="img"
+                        sx={{
+                            width: { xs: '100%', md: 250 },
+                            borderRadius: 2,
+                            objectFit: 'cover',
+                        }}
+                        image={book.book.cover_path}
+                        alt={book.book.title}
+                    />
+                    <CardContent
+                        sx={{
+                            flex: 1,
+                            ml: { md: 3 },
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                        }}
+                    >
+                        <Typography variant="h5" fontWeight="bold">
+                            {book.book.title || 'Untitled Book'}
+                        </Typography>
+                        <Box display="flex" alignItems="center" gap={1}>
+                            <Typography variant="body1" fontWeight="medium">
+                                by:
+                            </Typography>
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    cursor: 'pointer',
+                                    color: 'primary.main',
+                                    '&:hover': {
+                                        textDecoration: 'underline',
+                                    },
                                 }}
-                            />
-                        </button>
-                    </div>
-                </div>
-            </div>
+                                onClick={() => Author_Name(book.book.author.id)}
+                            >
+                                {book.book.author.name || 'Unknown Author'}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                (Author)
+                            </Typography>
+                        </Box>
+                        <Typography variant="body2" color="text.secondary">
+                            Category: {book.book.category.name || 'N/A'}
+                        </Typography>
+                        <Typography variant="body2">
+                            {book.book.description || 'No description available.'}
+                        </Typography>
+                        <Divider />
+                        <Box display="flex" alignItems="center" gap={1}>
+                            <Rating value={book.averageRating} readOnly precision={0.5} />
+                            <Typography variant="body2">
+                                {parseFloat(book.averageRating)} | {book.recommendationCount} Reviews
+                            </Typography>
+                        </Box>
+                        <Typography variant="body2" color="text.secondary">
+                            {book.recommendationCount} out of {book.recommendationCount} ({book.recommendationPercentage}%)% of reviewers recommend this product
+                        </Typography>
+                        <Divider />
+                        <Box>
+                            {book.discounted_price && book.discounted_price < book.book.price_handbook ? (
+                                <Stack spacing={1}>
+                                    <Typography variant="body2" color="text.secondary" sx={{ textDecoration: 'line-through' }}>
+                                        Price: ${book.book.price_handbook}
+                                    </Typography>
+                                    <Typography variant="h6" color="error" fontWeight="bold">
+                                        ${book.discounted_price}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Save: ${book.discount_amount} ({book.discount_percentage}%)
+                                    </Typography>
+                                </Stack>
+                            ) : (
+                                <Typography variant="h6" color="error" fontWeight="bold">
+                                    USD ${book.book.price_handbook}
+                                </Typography>
+                            )}
+                        </Box>
+                        <Box display="flex" gap={2} mt={2}>
+                            <Button
+                                variant="contained"
+                                startIcon={<ShoppingCartIcon />}
+                                onClick={() => handleAddToCart(book.book.id)}
+                                sx={{
+                                    borderRadius: 2,
+                                    textTransform: 'none',
+                                    fontWeight: 'bold',
+                                    px: 3,
+                                    py: 1.5,
+                                    transition: 'all 0.3s ease',
+                                    backgroundColor: 'primary.main',
+                                    '&:hover': {
+                                        backgroundColor: 'primary.dark',
+                                        boxShadow: 4,
+                                        transform: 'translateY(-2px)',
+                                    },
+                                }}
+                            >
+                                Add to Cart
+                            </Button>
+                            <IconButton
+                                onClick={() =>
+                                    favoriteBooks[book.book.id]
+                                        ? deleteFavorite(book.book.id)
+                                        : handleFavorite(book.book.id)
+                                }
+                                sx={{
+                                    color: favoriteBooks[book.book.id] ? 'error.main' : 'text.primary',
+                                }}
+                            >
+                                <BookmarkIcon sx={{ fontSize: 30 }} />
+                            </IconButton>
+                        </Box>
+                    </CardContent>
+                </Card>
+            </Box>
             <div className="product-extra-details">
                 <h2>Book Details</h2>
                 <div className="details">
@@ -285,9 +374,9 @@ const ViewBook = () => {
             <div className="related-books">
                 <h2>Related Books</h2>
                 <div className="list_other">
-                    {relatedBooks.map((item) => (
-                        <div className="item" key={item.id} style={{ cursor: 'pointer',position: 'relative' }}>
-                             {item.discount_percentage > 0 && (
+                    {relatedBooks.map((item, index) => (
+                        <div className="item" key={index} style={{ cursor: 'pointer', position: 'relative' }}>
+                            {item.discount_percentage > 0 && (
                                 <div
                                     style={{
                                         width: '20px',
@@ -318,26 +407,27 @@ const ViewBook = () => {
                                 <h1>{item.title}</h1>
                                 <p>{item.description}</p>
                                 <div className="rating">{renderStars(item.averageRating)}</div>
-                                <div className="price_item">
-                                {item.discounted_price && item.discounted_price < item.oragenal_price? (
-                                            <>
-                                                <span style={{ textDecoration: "line-through", color: "gray", marginRight: "10px" }}>
-                                                    ${item.oragenal_price}
-                                                </span>
-                                                <span style={{ fontWeight: "bold", color: "red" }}>
-                                                    ${item.discounted_price}
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <span style={{ fontWeight: "bold" }}>$ {item.oragenal_price}</span>
-                                        )}
+                                <div className="price">
+                                    {item.discounted_price && item.discounted_price < item.original_price ? (
+                                        <div style={{ "display": "flex", "flexDirection": "column", "marginBottom": "20px" }}>
+                                            <span style={{ textDecoration: "line-through", color: "gray", marginRight: "10px" }}>
+                                                price: ${item.original_price}
+                                            </span>
+                                            <span style={{ fontWeight: "bold", color: "red" }}>
+                                                price: ${item.discounted_price}
+                                            </span>
+                                            <span style={{ color: "gray", marginRight: "10px" }}>Save: ${item.discount_amount}( {item.discount_percentage}%)</span>
+                                        </div>
+                                    ) : (
+                                        <span style={{ fontWeight: "bold", color: "red", marginBottom: "20px" }}>USD {item.original_price}</span>
+                                    )}
                                 </div>
-                                
+
                             </div>
                         </div>
                     ))}
                 </div>
-                <BookReviews bookDetails ={book}/>
+                <BookReviews bookDetails={book} />
             </div>
         </>
     );

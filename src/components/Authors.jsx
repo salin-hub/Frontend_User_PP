@@ -10,6 +10,13 @@ import markbookIcon_red from '../assets/Images/bookmark_red.png';
 import markbookIcon from '../assets/Images/bookmark.png';
 import '../assets/style/description.css';
 import { useNavigate } from 'react-router-dom';
+import {
+    Box,
+    Card,
+    CardContent,
+    Typography,
+    Avatar,
+} from '@mui/material';
 const Authors = () => {
     const { id } = useParams(); // Author ID from URL params
     const [loading, setLoading] = useState(true);
@@ -154,22 +161,44 @@ const Authors = () => {
                     {successMessage}
                 </Alert>
             </Snackbar>
+            <Card
+                sx={{
+                    display: 'flex',
+                    flexDirection: { xs: 'column', sm: 'row' },
+                    gap: 4,
+                    p: 3,
+                    boxShadow: 3,
+                    borderRadius: 2,
+                    alignItems: 'center',
+                    justifyContent:"center",
+                }}
+            >
+                <Avatar
+                    src={author.image}
+                    alt={author.name}
+                    sx={{
+                        width: 250,
+                        height: 300,
+                        borderRadius: '12px',
+                        boxShadow: 2,
+                    }}
+                />
 
-            <div className="Books">
-                <div className="Name_menu">
-                    <h1>{author.name}</h1>
-                </div>
-            </div>
-
-            <div className="detailAuthor">
-                <div className="imageController">
-                    <img src={author.image} alt="Author" />
-                </div>
-                <div className="description">
-                    <h1>Information:</h1>
-                    <p>{author.description}</p>
-                </div>
-            </div>
+                <CardContent sx={{ width:"400px"}}>
+                    <Typography variant="h4" gutterBottom>
+                        Author Information
+                    </Typography>
+                    <Typography variant="h6" color="text.primary" gutterBottom>
+                        Name: <Box component="span" fontWeight="medium">{author.name}</Box>
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary" gutterBottom>
+                        Email: <Box component="span" fontWeight="medium">{author.email}</Box>
+                    </Typography>
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                        {author.description || 'No description available.'}
+                    </Typography>
+                </CardContent>
+            </Card>
 
             <div className="Books">
                 <div className="Name_menu">

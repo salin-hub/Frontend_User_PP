@@ -4,8 +4,11 @@
     justify-content: center;
     height: 100%;
     padding: 20px;
+    width: 100%;
+    background-color: rebeccapurple;
 }
 .empty-wishlist{
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -16,4 +19,94 @@
 .empty-wishlist h2{
     font-size: 20px;
     font-family: "Roboto", "Nokora", sans-serif; 
+}
+.item_wishlist{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    height: 160px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px  rgb(173, 172, 173);
+}
+.wishlist-checkbox{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+}
+.book_item_wishlist{
+    height: 170px;
+    margin-right: 20px;
+}
+.book_item_wishlist img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.descript_item_wishlist{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 30%;
+}
+.descript_item_wishlist h1{
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    font-family: "Roboto", "Nokora", sans-serif; 
+}
+.descript_item_wishlist h1:nth-child(1){
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-family: "Roboto", "Nokora", sans-serif; 
+}
+.descript_item_wishlist p{
+    margin: 0;
+    padding: 0;
+}
+.price_wishlist span{
+    color: red;
+    font-size: 20px;
+    font-family: "Roboto", "Nokora", sans-serif; 
+}
+.wishlist-header{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+}
+.wishlist-header label{
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+.wishlist-header input{
+    width: 20px;
+    height: 20px;
+}
+.wishlist-header label h1{
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    font-family: "Roboto", "Nokora", sans-serif; 
+}
+.wishlist-header button{
+    width: 5%;
+    background-color: red;
+    border-radius: 5px;
+    padding: 5px;
+    color: beige;
+    border: none;
+}
+.wishlist-header button:disabled{
+    background-color: rgb(188, 185, 185);
+}
+.wishlist-header button:nth-child(3):disabled{
+    background-color: rgb(188, 185, 185);
+}
+.wishlist-header button:nth-child(3){
+    background-color: rgb(40, 251, 7);
 }

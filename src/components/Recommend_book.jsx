@@ -8,11 +8,13 @@ function Recommendations() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const token = localStorage.getItem('authToken');
+
+  // Retrieve token from localStorage
+  const token = localStorage.getItem("authToken");
   console.log("Token Retrieved:", token);
+
   useEffect(() => {
     const fetchRecommendations = async () => {
-
       if (!token) {
         console.error("No auth token found, redirecting...");
         navigate("/");
@@ -20,10 +22,12 @@ function Recommendations() {
       }
 
       try {
-        const response = await axios_api.get('/recommendations', {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-        console.log(response.data.data)
+        const response = await axios_api.get("/recommendations", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        console.log("Recommendations Data:", response.data.data);
+        setBooks(response.data.data); // Store books in state
       } catch (err) {
         console.error("Error fetching recommendations:", err.response || err);
         setError("Failed to fetch recommendations. Please try again.");
@@ -33,13 +37,14 @@ function Recommendations() {
     };
 
     fetchRecommendations();
-  }); // Ensure token is retrieved inside useEffect
+  }, [token, navigate]); // Add token & navigate as dependencies
 
   return (
     <Container maxWidth="md" sx={{ mt: 5 }}>
-      {/* <Typography variant="h4" gutterBottom align="center">
+      <Typography variant="h4" gutterBottom align="center">
         Book Recommendations
       </Typography>
+
       {loading ? (
         <CircularProgress sx={{ display: "block", mx: "auto", mt: 4 }} />
       ) : error ? (
@@ -60,7 +65,7 @@ function Recommendations() {
             </Grid>
           ))}
         </Grid>
-      )} */}
+      )}
     </Container>
   );
 }

@@ -32,7 +32,7 @@ export const FavoriteProvider = ({ children }) => {
     
             const requestData = {
                 books_id: bookId,
-                users_id: userId,
+                user_id: userId,
             };
     
             const response = await axios_api.post('/favorite', requestData, {
@@ -43,9 +43,7 @@ export const FavoriteProvider = ({ children }) => {
                 setSuccessMessage('Book added to favorites successfully!');
                 setSnackbarOpen(true);
                 setFavoriteBooks((prev) => ({ ...prev, [bookId]: true })); // Mark as favorite
-            } else {
-                setError('Failed to add book to favorites. Please try again.');
-            }
+            } 
         } catch (error) {
             console.error('Error adding to favorites:', error);
             setError('An error occurred while adding to favorites.');

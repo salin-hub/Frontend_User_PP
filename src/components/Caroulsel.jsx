@@ -3,7 +3,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import Slider from 'react-slick';
-import image1 from '../assets/Images/book1.jpg'
+import image1 from '../assets/Images/p001.jpg'
 import image2 from '../assets/Images/book2.jpg'
 import image3 from '../assets/Images/image1.jpg'
 // import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
@@ -36,7 +36,7 @@ const Caroulsel = () => {
         infinite: true,
         lazyLoad: true,
         speed: 300,
-        slidesToShow: 3,
+        slidesToShow: 1,
         centerMode: true,
         centerPadding: 0,
         autoplay: true,

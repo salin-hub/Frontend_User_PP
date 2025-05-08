@@ -5,7 +5,6 @@ const MainPage =()=>{
     return(
         <>
         <Slider/>
-        
         <Books/>
         </>
     )

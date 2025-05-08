@@ -3,7 +3,9 @@ import axios_api from '../../API/axios'; // Import your Axios instance
 import { useNavigate } from 'react-router-dom';
 import Account from '../../assets/Images/account.png';
 import Exit from '../../assets/Images/exit.png';
-import Book from '../../assets/Images/open-book.png';
+import Book from '../../assets/Images/bookmark_red.png';
+import Changepassword from "../../assets/Images/reset-password.png"
+import OrderList from "../../assets/Images/manifest.png"
 import '../../assets/style/UserProfile.css';
 
 const UserProfile = () => {
@@ -59,6 +61,12 @@ const UserProfile = () => {
       alert('Failed to log out. Please try again.');
     }
   };
+  const handleClickchangeinfor =()=>{
+    navigate('/ChangeInfor', { state: { email: user?.email } });
+  }
+  const handleClickmywishlist =()=>{
+    navigate('/wishlist')
+  }
   
 
   useEffect(() => {
@@ -142,15 +150,21 @@ const UserProfile = () => {
             <div className="control_menu">
               <div className="menu-item">
                 <div className="icon">
-                  <img src={Book} alt="Reading History" />
+                  <img src={OrderList} alt="Reading History" />
                 </div>
-                <p>Reading History</p>
+                <p>My Order</p>
               </div>
-              <div className="menu-item">
+              <div className="menu-item" onClick={handleClickmywishlist}>
                 <div className="icon">
                   <img src={Book} alt="My Orders" />
                 </div>
-                <p>My Orders</p>
+                <p>My Wishlists</p>
+              </div>
+              <div className="menu-item" onClick={handleClickchangeinfor}>
+                <div className="icon">
+                  <img src={Changepassword} alt="My Orders" />
+                </div>
+                <p>Change password</p>
               </div>
             </div>
             <div className="order_list">
@@ -165,6 +179,7 @@ const UserProfile = () => {
                     <th style={{ textAlign: 'left', padding: '10px' }}>Order #</th>
                     <th style={{ textAlign: 'left', padding: '10px' }}>Title</th>
                     <th style={{ textAlign: 'left', padding: '10px' }}>Items</th>
+                    <th style={{ textAlign: 'left', padding: '10px' }}>Discount</th>
                     <th style={{ textAlign: 'left', padding: '10px' }}>Total</th>
                     <th style={{ textAlign: 'left', padding: '10px' }}>Placed On</th>
                     <th style={{ textAlign: 'left', padding: '10px' }}>Message</th>
@@ -175,15 +190,16 @@ const UserProfile = () => {
                   {orders.map((order, index) => (
                     order.items.map((item, itemIndex) => (
                       <tr key={`${index}-${itemIndex}`} style={{ borderBottom: '1px solid #ddd' }}>
-                        <td style={{ padding: '10px' }}>{item.id || 'N/A'}</td>
+                        <td style={{ padding: '10px' }}>{itemIndex+1|| 'N/A'}</td>
                         <td style={{ padding: '10px' }}>
                           {item.book?.title || 'No title available'}
                         </td>
                         <td style={{ padding: '10px' }}>
                           {item.quantity || 'No title available'}
                         </td>
+                        <td style={{padding:'10px',color:"red"}}>{item.discount_percentage}%</td>
                         <td style={{ padding: '10px' }}>
-                          ${item.price || 'No price available'}
+                          ${item.calculated_price || 'No price available'}
                         </td>
                         <td style={{ padding: '10px' }}>
                           {new Date(order.created_at).toLocaleDateString('en-GB')}

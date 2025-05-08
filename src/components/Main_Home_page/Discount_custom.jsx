@@ -52,8 +52,8 @@ const OtherBook = () => {
                     <i className="fa-solid fa-chevron-left"></i>
                 </div>
                 <div className="list_other">
-                    {items.filter(item => item.discount_percentage >= discountThreshold).map((item) => (
-                        <div className="item" key={item.id} style={{ cursor: 'pointer', position: 'relative' }}>
+                    {items.filter(item => item.discount_percentage >= discountThreshold).map((item,index) => (
+                        <div className="item" key={index} style={{ cursor: 'pointer', position: 'relative' }}>
                             {item.discount_percentage > 0 && (
                                 <div
                                     style={{

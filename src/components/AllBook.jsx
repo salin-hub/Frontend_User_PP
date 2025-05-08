@@ -8,29 +8,29 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import LinearProgress from '@mui/material/LinearProgress';
 import axios_api from '../API/axios';
 import markbookIcon from '../assets/Images/bookmark.png';
-import markbookIcon_red from '../assets/Images/bookmark_red.png';
+// import markbookIcon_red from '../assets/Images/bookmark_red.png';
 import Motion from './Motion';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
+// import Alert from '@mui/material/Alert';
+// import Snackbar from '@mui/material/Snackbar';
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useCart } from '../components/Contexts/CartContext';
 import { useFavorite } from './Contexts/FavoriteContext';
 const Books = () => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // const [error, setError] = useState(null);
     // const [authors, setAuthors] = useState([]);
-    const [favoriteBooks, setFavoriteBooks] = useState({});
+    // const [favoriteBooks, setFavoriteBooks] = useState({});
     const navigate = useNavigate();
     const [sortOrder, setSortOrder] = useState('');
     const [originalBooks, setOriginalBooks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const booksPerPage = 8;
-    const [successMessage, setSuccessMessage] = useState('');
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    // const [successMessage, setSuccessMessage] = useState('');
+    // const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     const { handleAddToCart } = useCart();
-    const { handleFavorite, deleteFavorite, fetchFavoriteBooks } = useFavorite();
+    const { handleFavorite,  fetchFavoriteBooks } = useFavorite();
 
     const startIndex = (currentPage - 1) * booksPerPage;
     const endIndex = startIndex + booksPerPage;
@@ -104,11 +104,21 @@ const Books = () => {
                 sortedBooks.sort((a, b) => new Date(b.publish_date) - new Date(a.publish_date));
                 break;
             case 'price-asc':
-                sortedBooks.sort((a, b) => a.price_handbook - b.price_handbook);
+                sortedBooks.sort((a, b) => {
+                    const priceA = a.discounted_price ?? a.original_price;
+                    const priceB = b.discounted_price ?? b.original_price;
+                    return priceA - priceB;
+                });
                 break;
+
             case 'price-desc':
-                sortedBooks.sort((a, b) => b.price_handbook - a.price_handbook);
+                sortedBooks.sort((a, b) => {
+                    const priceA = a.discounted_price ?? a.original_price;
+                    const priceB = b.discounted_price?? b.original_price;
+                    return priceB - priceA;
+                });
                 break;
+
 
         }
 
@@ -271,13 +281,13 @@ const Books = () => {
 
 
     if (loading) return <LinearProgress />;
-    if (error) return <p>Error: {error}</p>;
-    const handleSnackbarClose = () => {
-        setSnackbarOpen(false);
-    };
+    // if (error) return <p>Error: {error}</p>;
+    // const handleSnackbarClose = () => {
+    //     setSnackbarOpen(false);
+    // };
     return (
         <>
-            {error && <div>Error: {error}</div>}
+            {/* {error && <div>Error: {error}</div>}
 
             {successMessage && (
                 <Snackbar
@@ -290,7 +300,7 @@ const Books = () => {
                         {successMessage}
                     </Alert>
                 </Snackbar>
-            )}
+            )} */}
 
             <div className="sortItem">
                 <h1>All Books</h1>
@@ -323,119 +333,116 @@ const Books = () => {
                         </div>
                     ))}
                 </div> */}
-                <div className="item_books">
-                    {visibleBooks.map((book) => (
-                        <div className="items" key={book.id} style={{ cursor: 'pointer', position: 'relative' }}>
-                            {/* Display discount label only if there's a discount */}
-                            {book.discount && book.discount.discount_percentage > 0 && (
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        top: '10px',
-                                        left: '10px',
-                                        backgroundColor: 'red',
-                                        color: 'white',
-                                        padding: '5px 10px',
-                                        borderRadius: '5px',
-                                        fontWeight: 'bold',
-                                        fontSize: '14px',
-                                        zIndex: '10',
-                                    }}
-                                >
-                                    {book.discount.discount_percentage}% OFF
-                                </div>
-                            )}
-
-                            <div onClick={() => handleBookClick(book.id)} style={{ cursor: 'pointer' }}>
-                                <div className="book_item">
-                                    <img src={book.cover_path} alt={book.title} />
-                                </div>
-                                <div className="descript_item">
-                                    <h1>{book.title}</h1>
-                                    <p>{book.description}</p>
-                                    <div className="rating">
-                                        {renderStars(book.ratingCount)} |
-                                        {book.reviewcount > 1
-                                            ? `${book.reviewcount} Reviews`
-                                            : book.reviewcount === 1
-                                                ? `${book.reviewcount} Review`
-                                                : " Review"
-                                        }
-                                    </div>
-
-
-                                    <div className="price">
-                                        {/* Check if there's a discount and display prices accordingly */}
-                                        {book.discounted_price && book.discounted_price < book.original_price ? (
-                                            <>
-                                                <span style={{ textDecoration: "line-through", color: "gray", marginRight: "10px" }}>
-                                                    USD {book.original_price}
-                                                </span>
-                                                <span style={{ fontWeight: "bold", color: "red" }}>
-                                                    USD {book.discounted_price}
-                                                </span>
-                                            </>
-                                        ) : (
-                                            <span style={{ fontWeight: "bold" }}>USD {book.original_price}</span>
-                                        )}
-                                    </div>
-                                </div>
+            <div className="item_books">
+                {visibleBooks.map((book) => (
+                    <div className="items" key={book.id} style={{ cursor: 'pointer', position: 'relative' }}>
+                        {/* Display discount label only if there's a discount */}
+                        {book.discount && book.discount.discount_percentage > 0 && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    top: '10px',
+                                    left: '10px',
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    padding: '5px 10px',
+                                    borderRadius: '5px',
+                                    fontWeight: 'bold',
+                                    fontSize: '14px',
+                                    zIndex: '10',
+                                }}
+                            >
+                                {book.discount.discount_percentage}% OFF
                             </div>
+                        )}
 
+                        <div onClick={() => handleBookClick(book.id)} style={{ cursor: 'pointer' }}>
+                            <div className="book_item">
+                                <img src={book.cover_path} alt={book.title} />
+                            </div>
                             <div className="descript_item">
-                                <div className="buy_item">
-                                    {/* Add to Cart Button */}
-                                    <div className="buy" onClick={() => handleAddToCart(book.id)}>
-                                        <img src={cart} alt="cart" />
-                                        <span>Cart</span>
-                                    </div>
+                                <h1>{book.title}</h1>
+                                <p>{book.description}</p>
+                                <div className="rating">
+                                    {renderStars(book.ratingCount)} |
+                                    {book.reviewcount > 1
+                                        ? `${book.reviewcount} Reviews`
+                                        : book.reviewcount === 1
+                                            ? `${book.reviewcount} Review`
+                                            : " Review"
+                                    }
+                                </div>
 
-                                    {/* Bookmark Button */}
-                                    <img
-                                        src={favoriteBooks[book.id] ? markbookIcon_red : markbookIcon}
-                                        alt="bookmark"
-                                        onClick={() =>
-                                            favoriteBooks[book.id]
-                                                ? deleteFavorite(book.id)  // Remove from favorites
-                                                : handleFavorite(book.id)  // Add to favorites
-                                        }
-                                    />
+
+                                <div className="price">
+                                    {/* Check if there's a discount and display prices accordingly */}
+                                    {book.discounted_price && book.discounted_price < book.original_price ? (
+                                        <>
+                                            <span style={{ textDecoration: "line-through", color: "gray", marginRight: "10px" }}>
+                                                USD {book.original_price}
+                                            </span>
+                                            <span style={{ fontWeight: "bold", color: "red" }}>
+                                                USD {book.discounted_price}
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span style={{ fontWeight: "bold" }}>USD {book.original_price}</span>
+                                    )}
                                 </div>
                             </div>
                         </div>
-                    ))}
 
+                        <div className="descript_item">
+                            <div className="buy_item">
+                                {/* Add to Cart Button */}
+                                <div className="buy" onClick={() => handleAddToCart(book.id)}>
+                                    <img src={cart} alt="cart" />
+                                    <span>Cart</span>
+                                </div>
 
-
-                    <div className="pagination-container">
-                        <button
-                            className="pagination-arrow"
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                        >
-                            <IoIosArrowBack />
-                        </button>
-                        {[...Array(totalPages).keys()].map((page) => (
-                            <button
-                                key={page + 1}
-                                className={`pagination-page ${currentPage === page + 1 ? 'active' : ''}`}
-                                onClick={() => handlePageChange(page + 1)}
-                            >
-                                {page + 1}
-                            </button>
-                        ))}
-                        <button
-                            className="pagination-arrow"
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                        >
-                            <IoIosArrowForward />
-                        </button>
+                                {/* Bookmark Button */}
+                                <img
+                                    src= {markbookIcon}
+                                    alt="bookmark"
+                                    onClick={() =>handleFavorite(book.id)  // Add to favorites
+                                    }
+                                />
+                            </div>
+                        </div>
                     </div>
+                ))}
+
+
+
+                <div className="pagination-container">
+                    <button
+                        className="pagination-arrow"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                    >
+                        <IoIosArrowBack />
+                    </button>
+                    {[...Array(totalPages).keys()].map((page) => (
+                        <button
+                            key={page + 1}
+                            className={`pagination-page ${currentPage === page + 1 ? 'active' : ''}`}
+                            onClick={() => handlePageChange(page + 1)}
+                        >
+                            {page + 1}
+                        </button>
+                    ))}
+                    <button
+                        className="pagination-arrow"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                    >
+                        <IoIosArrowForward />
+                    </button>
                 </div>
+            </div>
             <Motion />
             <Other_book />
-            <Discount_custom/>
+            <Discount_custom />
         </>
     );
 };

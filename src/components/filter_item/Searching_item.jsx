@@ -11,7 +11,6 @@ function SearchBar() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch categories from the backend
         const fetchCategories = async () => {
             try {
                 const response = await axios_api.get('/categories');
@@ -26,7 +25,6 @@ function SearchBar() {
     }, []);
 
     const handleSearch = () => {
-        // Navigate to the search-results page and refresh the route
         navigate(`/search-results?term=${encodeURIComponent(searchTerm)}&category=${encodeURIComponent(category)}`);
     };
 

@@ -55,14 +55,14 @@ const ShoppingCart = () => {
 
     const handleCheckout = async () => {
         setIsCheckoutInProgress(true); // Set to true at the start
-    
+
         try {
             // Validate cart items
             if (cartItems.length === 0) {
                 alert('Your cart is empty.');
                 return;
             }
-    
+
             const items = cartItems.map(item => {
                 if (!item.book?.id || !item.quantity || !item.book?.price_handbook) {
                     throw new Error('One or more items are missing required information.');
@@ -82,21 +82,21 @@ const ShoppingCart = () => {
                 alert('User ID is missing.');
                 return;
             }
-    
+
             const orderData = {
                 user_id: userId,
                 items,
             };
-    
+
             const response = await axios_api.post('/orders', orderData);
-    
+
             // Ensure response has a message before using it
             if (response?.data?.message) {
                 alert(response.data.message);
             } else {
                 throw new Error('Unexpected response format.');
             }
-    
+
             setCartItems([]); // Clear cart after successful checkout
         } catch (error) {
             // Improved error handling with message check
@@ -107,16 +107,23 @@ const ShoppingCart = () => {
             setIsCheckoutInProgress(false); // Reset to false after request
         }
     };
-    
-    
-    
-    
-    
+
+
+
+
+
 
     // Calculate total price
     const calculateTotalPrice = () => {
-        return cartItems.reduce((total, item) => total + item.book.price_handbook * item.quantity, 0).toFixed(2);
+        const subtotal = cartItems.reduce((total, item) => {
+            const price = item.book.discounted_price && item.book.discounted_price < item.book.price_handbook
+                ? item.book.discounted_price
+                : item.book.price_handbook;
+            return total + price * item.quantity;
+        }, 0);
+        return subtotal.toFixed(2);
     };
+    
 
     // Calculate total items in cart
     const calculateTotalItems = () => {
@@ -145,22 +152,24 @@ const ShoppingCart = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell align="center">No</TableCell>
                                 <TableCell align="center">Cover</TableCell>
                                 <TableCell align="center">Title</TableCell>
                                 <TableCell align="center">Quantity</TableCell>
                                 <TableCell align="center">Price (USD)</TableCell>
+                                <TableCell align="center">Discount</TableCell>
                                 <TableCell align="center">Total Price (USD)</TableCell>
                                 <TableCell align="center">Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {cartItems.map((item) => (
-                                <TableRow key={item.id}>
+                            {cartItems.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell align="center">{index + 1}</TableCell>
                                     <TableCell align="center">
                                         <img
                                             src={
                                                 item.book.cover_path
-                                                   
                                             }
                                             alt={item.book.title}
                                             style={{ width: '50px', height: 'auto' }}
@@ -184,8 +193,26 @@ const ShoppingCart = () => {
                                             <AddIcon />
                                         </Button>
                                     </TableCell>
-                                    <TableCell align="center">{item.book.price_handbook}</TableCell>
-                                    <TableCell align="center">{(item.book.price_handbook * item.quantity).toFixed(2)}</TableCell>
+                                    <TableCell align="center">
+                                        {item.book.discounted_price && item.book.discounted_price < item.book.price_handbook ? (
+                                            <>
+                                                <span style={{ textDecoration: "line-through", color: "gray", marginRight: "10px" }}>
+                                                    USD {item.book.price_handbook}
+                                                </span>
+                                                <span style={{ fontWeight: "bold", color: "red" }}>
+                                                    $ {item.book.discounted_price}
+                                                </span>
+                                            </>
+                                        ) : (
+                                            <span style={{ fontWeight: "bold" }}>$ {item.book.price_handbook}</span>
+                                        )}</TableCell>
+                                    <TableCell align="center">{item.book.discount_percentage}%</TableCell>
+                                    <TableCell align="center">
+                                        {(
+                                            (item.book.discounted_price ?? item.book.price_handbook) * item.quantity
+                                        ).toFixed(2)}
+                                    </TableCell>
+
                                     <TableCell align="center">
                                         <DeleteIcon
                                             style={{
